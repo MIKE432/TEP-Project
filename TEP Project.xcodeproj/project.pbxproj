@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		271825C623B6ACEE0030A4EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271825C523B6ACEE0030A4EF /* main.cpp */; };
-		271825D023B6AD430030A4EF /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271825CE23B6AD430030A4EF /* Matrix.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +25,9 @@
 /* Begin PBXFileReference section */
 		271825C223B6ACEE0030A4EF /* TEP Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TEP Project"; sourceTree = BUILT_PRODUCTS_DIR; };
 		271825C523B6ACEE0030A4EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		271825CE23B6AD430030A4EF /* Matrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
 		271825CF23B6AD430030A4EF /* Matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
+		271825D223B805B50030A4EF /* Table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
+		271825D523B807010030A4EF /* MySmartPointer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MySmartPointer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,19 +60,20 @@
 		271825C423B6ACEE0030A4EF /* TEP Project */ = {
 			isa = PBXGroup;
 			children = (
-				271825CC23B6AD0A0030A4EF /* Matrix */,
+				271825CC23B6AD0A0030A4EF /* core */,
 				271825C523B6ACEE0030A4EF /* main.cpp */,
 			);
 			path = "TEP Project";
 			sourceTree = "<group>";
 		};
-		271825CC23B6AD0A0030A4EF /* Matrix */ = {
+		271825CC23B6AD0A0030A4EF /* core */ = {
 			isa = PBXGroup;
 			children = (
-				271825CE23B6AD430030A4EF /* Matrix.cpp */,
 				271825CF23B6AD430030A4EF /* Matrix.h */,
+				271825D223B805B50030A4EF /* Table.h */,
+				271825D523B807010030A4EF /* MySmartPointer.h */,
 			);
-			path = Matrix;
+			path = core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,7 +133,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				271825D023B6AD430030A4EF /* Matrix.cpp in Sources */,
 				271825C623B6ACEE0030A4EF /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
