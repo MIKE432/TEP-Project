@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270C6C6323BA040200E05B79 /* MscnProblem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C6223BA040200E05B79 /* MscnProblem.cpp */; };
 		271825C623B6ACEE0030A4EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271825C523B6ACEE0030A4EF /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		270C6C6123B8D28400E05B79 /* MscnProblem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MscnProblem.h; sourceTree = "<group>"; };
+		270C6C6223BA040200E05B79 /* MscnProblem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MscnProblem.cpp; sourceTree = "<group>"; };
+		270C6C6523BA53E400E05B79 /* Consts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Consts.h; sourceTree = "<group>"; };
 		271825C223B6ACEE0030A4EF /* TEP Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TEP Project"; sourceTree = BUILT_PRODUCTS_DIR; };
 		271825C523B6ACEE0030A4EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		271825CF23B6AD430030A4EF /* Matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
@@ -41,6 +45,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270C6C6023B8D25500E05B79 /* MSCN Problem */ = {
+			isa = PBXGroup;
+			children = (
+				270C6C6123B8D28400E05B79 /* MscnProblem.h */,
+				270C6C6223BA040200E05B79 /* MscnProblem.cpp */,
+			);
+			path = "MSCN Problem";
+			sourceTree = "<group>";
+		};
+		270C6C6423BA53D400E05B79 /* consts */ = {
+			isa = PBXGroup;
+			children = (
+				270C6C6523BA53E400E05B79 /* Consts.h */,
+			);
+			path = consts;
+			sourceTree = "<group>";
+		};
 		271825B923B6ACEE0030A4EF = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +81,8 @@
 		271825C423B6ACEE0030A4EF /* TEP Project */ = {
 			isa = PBXGroup;
 			children = (
+				270C6C6423BA53D400E05B79 /* consts */,
+				270C6C6023B8D25500E05B79 /* MSCN Problem */,
 				271825CC23B6AD0A0030A4EF /* core */,
 				271825C523B6ACEE0030A4EF /* main.cpp */,
 			);
@@ -133,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				270C6C6323BA040200E05B79 /* MscnProblem.cpp in Sources */,
 				271825C623B6ACEE0030A4EF /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

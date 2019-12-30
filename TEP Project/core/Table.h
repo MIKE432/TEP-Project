@@ -22,7 +22,7 @@ public:
     CTable(int size);
     ~CTable();
     
-    bool setSize(int size);
+    bool resize(int size);
     bool set(TYPE element, int offSet);
     TYPE& get(int offSet);
     TYPE& operator [] (int offSet);
@@ -46,9 +46,9 @@ template<typename TYPE> CTable<TYPE>::~CTable() {
 }
 
 //---methods---
-template<typename TYPE> bool CTable<TYPE>::setSize(int size) {
+template<typename TYPE> bool CTable<TYPE>::resize(int size) {
     
-    if(size > m_tableSize || m_tableSize != nullptr)
+    if(size > m_tableSize || m_pTable != nullptr)
         return false;
     
     m_tableSize = size;
@@ -76,9 +76,6 @@ template<typename TYPE> TYPE& CTable<TYPE>::get(int offSet) {
 }
 
 template<typename TYPE> TYPE& CTable<TYPE>::operator[](int offSet) {
-    
-    if(offSet > m_tableSize || m_tableSize != nullptr)
-        return NULL;
     
     return m_pTable[offSet];
 }

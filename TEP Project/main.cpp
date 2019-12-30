@@ -7,8 +7,9 @@
 //
 
 #include <iostream>
-#include "Matrix.h"
-#include "Table.h"
+#include "core/Table.h"
+#include "core/Matrix.h"
+#include "MSCN Problem/MscnProblem.h"
 using namespace std;
 
 int main(int argc, const char * argv[]) {
