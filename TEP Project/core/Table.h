@@ -28,7 +28,7 @@ public:
     TYPE& get(int offSet);
     TYPE& operator [] (int offSet);
     
-    bool randomize(const CRandom& random);
+    bool randomize(CRandom& random);
 };
 
 //---constructors---
@@ -92,7 +92,12 @@ template<typename TYPE> TYPE& CTable<TYPE>::operator[](int offSet) {
     return m_pTable[offSet];
 }
 
-template<typename TYPE> bool CTable<TYPE>::randomize(const CRandom &random) {
+template<typename TYPE> bool CTable<TYPE>::randomize(CRandom& random) {
+    
+    for(int i = 0; i < m_tableSize; i++) {
+        
+        m_pTable[i].randomize(random);
+    }
     
     return true;
 }

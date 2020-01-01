@@ -23,17 +23,58 @@ SSolution::SSolution(CMatrix<CDouble> xd, CMatrix<CDouble> xf, CMatrix<CDouble> 
     m_xm = xm;
 }
 
-CMscnProblem::CMscnProblem() {
+CMscnProblem::CMscnProblem()
+: m_dCount( DEFAULT_MSCN_PROBLEM_D_COUNT )
+, m_fCount( DEFAULT_MSCN_PROBLEM_F_COUNT )
+, m_mCount( DEFAULT_MSCN_PROBLEM_M_COUNT )
+, m_sCount( DEFAULT_MSCN_PROBLEM_S_COUNT ) {
+
+    Init();
+}
+
+void CMscnProblem::Init() {
     
-    m_dCount = DEFAULT_MSCN_PROBLEM_D_COUNT;
-    m_fCount = DEFAULT_MSCN_PROBLEM_F_COUNT;
-    m_mCount = DEFAULT_MSCN_PROBLEM_M_COUNT;
-    m_sCount = DEFAULT_MSCN_PROBLEM_S_COUNT;
+    m_sd.resize(m_dCount);
+    m_sf.resize(m_fCount);
+    m_ss.resize(m_sCount);
+    m_sm.resize(m_mCount);
     
-    setDCount(m_dCount);
-    setFCount(m_fCount);
-    setMCount(m_mCount);
-    setSCount(m_sCount);
+    m_ud.resize(m_dCount);
+    m_uf.resize(m_fCount);
+    m_um.resize(m_mCount);
+    m_ps.resize(m_sCount);
+    
+    m_cd.resize(m_dCount, m_fCount);
+    m_cf.resize(m_fCount, m_mCount);
+    m_cm.resize(m_mCount, m_sCount);
+    
+    m_xdMinMax.resize(m_dCount, m_fCount);
+    m_xfMinMax.resize(m_fCount, m_mCount);
+    m_xmMinMax.resize(m_mCount, m_sCount);
+}
+
+bool CMscnProblem::randomize(CRandom& random) {
+
+    
+    m_sd.randomize(random.SetRange(0, 50));
+    m_sf.randomize(random.SetRange(0, 50));
+    m_ss.randomize(random.SetRange(0, 50));
+    m_sm.randomize(random.SetRange(0, 50));
+    
+    m_ud.randomize(random.SetRange(0, 50));
+    m_uf.randomize(random.SetRange(0, 50));
+    m_um.randomize(random.SetRange(0, 50));
+    m_ps.randomize(random.SetRange(0, 50));
+    
+    m_cd.randomize(random.SetRange(0, 50));
+    m_cf.randomize(random.SetRange(0, 50));
+    m_cm.randomize(random.SetRange(0, 50));
+    
+    m_xdMinMax.randomize(random.SetRange(0, 50));
+    m_xfMinMax.randomize(random.SetRange(0, 50));
+    m_xmMinMax.randomize(random.SetRange(0, 50));
+
+    return true;
 }
 
 void CMscnProblem::setDCount(int dCount) {
@@ -370,9 +411,5 @@ bool CMscnProblem::readFromFile(FILE *file) {
 bool CMscnProblem::writeToFile(FILE *file) {
     
     
-    return true;
-}
-
-bool CMscnProblem::randomize() {
     return true;
 }

@@ -31,12 +31,7 @@ int main(int argc, const char * argv[]) {
     
     CRandom random(10);
     
-    cout << random.nextNumber() << endl;
-    cout << random.nextNumber() << endl;
-    cout << random.nextNumber() << endl;
-    cout << random.nextNumber() << endl;
-    cout << random.nextNumber() << endl;
-    cout << random.nextNumber() << endl;
+    problem.randomize(random);
     
     return 0;
 }

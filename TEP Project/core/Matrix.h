@@ -49,7 +49,7 @@ public:
     double getYSize() { return m_nSizeY; }
     TYPE* operator [] (int offsetX);
     
-    bool randomize(const CRandom& random);
+    bool randomize(CRandom& random);
 };
 
 //---constructors---
@@ -178,7 +178,15 @@ template<typename TYPE> CDouble CMatrix<TYPE>::sumInRowOrColumn(char flag, int r
     
 }
 
-template<typename TYPE> bool CMatrix<TYPE>::randomize(const CRandom &random) {
+template<typename TYPE> bool CMatrix<TYPE>::randomize(CRandom& random) {
+    
+    for(int x = 0; x < m_nSizeX; x++) {
+        
+        for(int y = 0; y < m_nSizeY; y++) {
+            
+            m_ppMatrix[x][y].randomize(random);
+        }
+    }
     
     return true;
 }

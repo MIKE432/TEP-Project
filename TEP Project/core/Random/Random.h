@@ -14,16 +14,17 @@
 class CRandom {
 private:
     int m_seed;
+    double m_dFrom;
+    double m_dTo;
     std::random_device m_rd;
     std::default_random_engine m_dre;
     
 public:
     CRandom();
     CRandom(int seed);
-    double nextNumber();
-    double nextNumber(double leftEdge, double rightEdge);
-    void setSeed(int seed);
-    void deleteSeed();
+    
+    CRandom& SetRange(double dFrom, double dTo );
+    double Generate();
 };
 
 #endif /* Random_h */

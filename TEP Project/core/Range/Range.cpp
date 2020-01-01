@@ -44,6 +44,22 @@ void CRange::setMin(const CDouble& otherDouble) {
     m_dMin = otherDouble;
 }
 
+bool CRange::randomize(CRandom &random) {
+    
+    double d1 = random.Generate();
+    double d2 = random.Generate();
+    
+    if(d1 > d2) {
+        m_dMax = d1;
+        m_dMin = d2;
+    } else {
+        m_dMax = d2;
+        m_dMin = d1;
+    }
+    
+    return true;
+}
+
 CDouble CRange::operator [] (int minOrMax) {
     
     if(minOrMax > 0 && minOrMax <= 1 ) {
@@ -54,6 +70,7 @@ CDouble CRange::operator [] (int minOrMax) {
 }
 
 CRange& CRange::operator = (const CRange& otherCRange) {
+    
     m_dMin = otherCRange.m_dMin;
     m_dMax = otherCRange.m_dMax;
     

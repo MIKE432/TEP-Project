@@ -29,6 +29,12 @@ double CDouble::get() const {
     return m_dValue;
 }
 
+bool CDouble::randomize(CRandom &random) {
+    
+    m_dValue = random.Generate();
+    return true;
+}
+
 //---operators---
 
 CDouble& CDouble::operator = (const CDouble& otherDouble) {

@@ -15,27 +15,22 @@ CRandom::CRandom() {
 
 CRandom::CRandom(int seed)
 : m_seed(seed) {
+    
     m_dre = std::default_random_engine(m_rd());
     m_dre.seed(seed);
+    SetRange(0.0, 1.0);
 }
 
-double CRandom::nextNumber() {
-    std::uniform_real_distribution<double> dist(10, 15);
-    return dist(m_dre);
-}
-
-double CRandom::nextNumber(double leftEdge, double rightEdge) {
-    std::uniform_real_distribution<double> dist(leftEdge, rightEdge);
-    return dist(m_dre);
-}
-
-void CRandom::setSeed(int seed) {
+CRandom& CRandom::SetRange(double dFrom, double dTo) {
     
-    m_seed = seed;
-    m_dre.seed(seed);
+    m_dTo = dTo;
+    m_dFrom = dFrom;
     
+    return *this;
 }
-void CRandom::deleteSeed() {
-    m_dre = std::default_random_engine(m_rd());
-    m_seed = NULL;
+
+double CRandom::Generate() {
+    
+    std::uniform_real_distribution<double> dist(m_dFrom, m_dTo);
+    return dist(m_dre);
 }

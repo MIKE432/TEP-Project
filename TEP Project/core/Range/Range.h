@@ -32,7 +32,7 @@ public:
     CDouble operator [] (int minOrMax);
     CRange& operator = (const CRange& otherCRange);
     
-    bool random(CRandom& random);
+    bool randomize(CRandom& random);
 };
 
 #endif /* CRange_hpp */

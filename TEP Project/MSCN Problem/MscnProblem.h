@@ -25,6 +25,11 @@ struct SSolution {
 
 class CMscnProblem {
 private:
+    int m_nSizeD;
+    int m_nSizeF;
+    int m_nSizeM;
+    int m_nSizeS;
+    
     int m_dCount;
     int m_fCount;
     int m_mCount;
@@ -38,15 +43,17 @@ private:
     CTable<CDouble> m_ud;
     CTable<CDouble> m_uf;
     CTable<CDouble> m_um;
-    CTable<CDouble> m_ps;
+    CTable<CDouble> m_ps; //m_tablePS;
     
-    CMatrix<CDouble> m_cd;
+    CMatrix<CDouble> m_cd; //m_matrixCD
     CMatrix<CDouble> m_cf;
     CMatrix<CDouble> m_cm;
     
     CMatrix<CRange> m_xdMinMax;
     CMatrix<CRange> m_xfMinMax;
     CMatrix<CRange> m_xmMinMax;
+    
+    void Init();
     
     int check(double* pSolution, int solutionSize);
     SSolution parseSolution(double* pSolution);
@@ -56,6 +63,10 @@ public:
     CMscnProblem();
     
 //---setters---
+    void SetSizeD( int nSizeD );
+    void SetSizeF( int nSizeF );
+    void SetSizeM( int nSizeM );
+    
     void setDCount(int dCount);
     void setFCount(int fCount);
     void setMCount(int mCount);
@@ -85,7 +96,7 @@ public:
     double getQuality(double* pSolution, int& error, int solutionSize);
     bool constraintsSatisfied(double* pSolution, int& error, int solutionSize);
     
-    bool randomize();
+    bool randomize(CRandom& random);
 
 //---files handler methods (read, write)---
     

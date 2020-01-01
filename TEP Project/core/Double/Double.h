@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string>
+#include "Random.h"
 
 using namespace std;
 
@@ -28,6 +29,8 @@ public:
     
     string ToString();
     bool Parse(string s, string::size_type* pRead = NULL);
+    
+    bool randomize(CRandom& random);
     
     CDouble& operator = (const CDouble& otherDouble);
     CDouble& operator = (double double1);
