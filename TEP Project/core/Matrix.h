@@ -12,126 +12,175 @@
 #include <stdio.h>
 #include "MySmartPointer.h"
 #include "Consts.h"
+#include "Table.h"
+#include "Double.h"
+#include "Random.h"
 
 using namespace std;
 
 template<typename TYPE>
 class CMatrix {
 private:
-    TYPE** m_matrix;
-    int m_offSetX;
-    int m_offSetY;
+    TYPE** m_ppMatrix;
+    int m_nSizeX;
+    int m_nSizeY;
     
 public:
     CMatrix();
-    CMatrix(int offSetX, int dimY);
+    CMatrix(int sizeX, int dimY);
     ~CMatrix();
     
-    bool set(const TYPE& element, int offSetX, int offSetY);
-    bool resize(int offSetX, int offSetY);
-    TYPE& get(int offSetX, int offSetY);
+    bool set(const TYPE& element, int offsetX, int offsetY);
+    bool resize(int sizeX, int sizeY);
+    TYPE& get(int offsetX, int offsetY);
 //    void print() {
-//        for(int j = 0; j < m_offSetY; j++) {
-//            for(int i = 0; i < m_offSetX; i++) {
+//        for(int j = 0; j < m_nSizeY; j++) {
+//            for(int i = 0; i < m_nSizeX; i++) {
 //
-//                cout << m_matrix[i][j];
+//                cout << m_ppMatrix[i][j];
 //            }
 //            cout << endl;
 //        }
 //    }
 //
+    CDouble sumInRowOrColumn(char flag, int rowOrColumnNumber);
     bool rowSumHigherThanZero(int row);
-    double getXSize() { return m_offSetX; }
-    double getYSize() { return m_offSetY; }
-    TYPE* operator [] (int offSetX);
+    double getXSize() { return m_nSizeX; }
+    double getYSize() { return m_nSizeY; }
+    TYPE* operator [] (int offsetX);
+    
+    bool randomize(const CRandom& random);
 };
 
 //---constructors---
 template<typename TYPE> CMatrix<TYPE>::CMatrix()
-: m_matrix(nullptr), m_offSetX(DEFAULT_DIM_X), m_offSetY(DEFAULT_DIM_Y) {
-
+: m_nSizeX(DEFAULT_DIM_X), m_nSizeY(DEFAULT_DIM_Y) {
+    
+    m_ppMatrix = new TYPE*[m_nSizeX];
+    
+    for(int i = 0; i < m_nSizeX; i++) {
+        
+        m_ppMatrix[i] = new TYPE[m_nSizeY];
+    }
 }
 
-template<typename TYPE> CMatrix<TYPE>::CMatrix(int offSetX, int offSetY)
-: m_matrix(nullptr), m_offSetX(offSetX), m_offSetY(offSetY) {
+template<typename TYPE> CMatrix<TYPE>::CMatrix(int sizeX, int sizeY)
+: m_ppMatrix(NULL), m_nSizeX(sizeX), m_nSizeY(sizeY) {
     
-    m_matrix = new TYPE*[m_offSetX];
+    m_ppMatrix = new TYPE*[m_nSizeX];
     
-    for(int i = 0; i < m_offSetX; i++) {
-        m_matrix[i] = new TYPE[m_offSetY];
+    for(int i = 0; i < m_nSizeX; i++) {
+        
+        m_ppMatrix[i] = new TYPE[m_nSizeY];
     }
     
 }
 
 template<typename TYPE> CMatrix<TYPE>::~CMatrix() {
     
-    if(m_matrix != nullptr) {
+    if(m_ppMatrix != NULL) {
         
-        for(int i = 0; i < m_offSetX; i++) {
-            delete[] m_matrix[i];
+        for(int i = 0; i < m_nSizeX; i++) {
+            delete[] m_ppMatrix[i];
         }
         
-        delete[] m_matrix;
+        delete[] m_ppMatrix;
     }
 }
 
 //---methods---
 template<typename TYPE> bool CMatrix<TYPE>::resize(int sizeX, int sizeY) {
     
-    if(sizeX < 0 || sizeY < 0 || m_matrix == nullptr || sizeY == m_offSetY || sizeX == m_offSetX)
+    if(sizeX < 0 || sizeY < 0)
         return false;
     
-    m_offSetX = sizeX;
-    m_offSetY = sizeY;
-    
-    for(int i = 0; i < m_offSetX; i++) {
-        delete[] m_matrix[i];
+    TYPE** ppNewMatrix = new TYPE*[ sizeX ];
+    for(int i = 0; i < sizeX; i++) {
+        ppNewMatrix[i] = new TYPE[ sizeY ];
     }
-    
-    delete[] m_matrix;
-    
-    m_matrix = new TYPE*[m_offSetX];
-    
-    for(int i = 0; i < m_offSetX; i++) {
-        m_matrix[i] = new TYPE[m_offSetY];
+
+    if(m_ppMatrix != NULL) {
+        
+        for(int i = 0; i < m_nSizeX; i++) {
+            delete[] m_ppMatrix[i];
+        }
+        
+        delete[] m_ppMatrix;
     }
+        
+    m_nSizeX = sizeX;
+    m_nSizeY = sizeY;
+    m_ppMatrix = ppNewMatrix;
     
     return true;
 }
 
-template<typename TYPE> bool CMatrix<TYPE>::set(const TYPE& element, int offSetX, int offSetY) {
+template<typename TYPE> bool CMatrix<TYPE>::set(const TYPE& element, int offsetX, int offsetY) {
     
-    if(offSetX > m_offSetX || offSetY > m_offSetY)
+    if(offsetX > m_nSizeX || offsetY > m_nSizeY)
         return false;
     
-    m_matrix[offSetX][offSetY] = element;
+    m_ppMatrix[offsetX][offsetY] = element;
     
     return true;
 }
 
-template<typename TYPE> TYPE& CMatrix<TYPE>::get(int offSetX, int offSetY) {
+template<typename TYPE> TYPE& CMatrix<TYPE>::get(int offsetX, int offsetY) {
     
-    if(offSetX > m_offSetX || offSetY > m_offSetY)
+    if(offsetX > m_nSizeX || offsetY > m_nSizeY)
         return NULL;
     
-    return m_matrix[offSetX][offSetY];
+    return m_ppMatrix[offsetX][offsetY];
 }
 
 
-template<typename TYPE> TYPE* CMatrix<TYPE>::operator [](int offSetX) {
+template<typename TYPE> TYPE* CMatrix<TYPE>::operator [](int offsetX) {
     
-    return m_matrix[offSetX];
+    return m_ppMatrix[offsetX];
 }
 
 template<typename TYPE> bool CMatrix<TYPE>::rowSumHigherThanZero(int row) {
     
-    for(int i = 0; i < m_offSetY; i++) {
+    for(int i = 0; i < m_nSizeY; i++) {
         
-        if(m_matrix[row][i] > 0)
+        if(m_ppMatrix[row][i] > 0)
             return true;
     }
     
     return false;
+}
+
+
+template<typename TYPE> CDouble CMatrix<TYPE>::sumInRowOrColumn(char flag, int rowOrColumnNumber) {
+    
+    CDouble result = 0;
+    
+    if(flag == 'c') {
+        
+        for(int i = 0; i < m_nSizeY; i++) {
+            
+            result += m_ppMatrix[rowOrColumnNumber][i];
+        }
+        
+        return result;
+        
+    } else if(flag == 'r') {
+        
+        for(int i = 0; i < m_nSizeX; i++) {
+            
+            result += m_ppMatrix[i][rowOrColumnNumber];
+        }
+        
+        return result;
+        
+    } else
+        return WRONG_ARGUMENT_ERROR;
+    
+}
+
+template<typename TYPE> bool CMatrix<TYPE>::randomize(const CRandom &random) {
+    
+    return true;
 }
 
 #endif /* Matrix_hpp */

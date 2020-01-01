@@ -12,13 +12,15 @@
 #include "Matrix.h"
 #include "Table.h"
 #include "Consts.h"
+#include "Double.h"
+#include "Range.h"
 
 struct SSolution {
-    CMatrix<double> m_xf;
-    CMatrix<double> m_xd;
-    CMatrix<double> m_xm;
+    CMatrix<CDouble> m_xf;
+    CMatrix<CDouble> m_xd;
+    CMatrix<CDouble> m_xm;
     
-    SSolution(CMatrix<double> xf, CMatrix<double> xd, CMatrix<double> xm);
+    SSolution(CMatrix<CDouble> xf, CMatrix<CDouble> xd, CMatrix<CDouble> xm);
 };
 
 class CMscnProblem {
@@ -28,23 +30,23 @@ private:
     int m_mCount;
     int m_sCount;
     
-    CTable<double> m_sd;
-    CTable<double> m_sf;
-    CTable<double> m_sm;
-    CTable<double> m_ss;
+    CTable<CDouble> m_sd;
+    CTable<CDouble> m_sf;
+    CTable<CDouble> m_sm;
+    CTable<CDouble> m_ss;
     
-    CTable<double> m_ud;
-    CTable<double> m_uf;
-    CTable<double> m_um;
-    CTable<double> m_ps;
+    CTable<CDouble> m_ud;
+    CTable<CDouble> m_uf;
+    CTable<CDouble> m_um;
+    CTable<CDouble> m_ps;
     
-    CMatrix<double> m_cd;
-    CMatrix<double> m_cf;
-    CMatrix<double> m_cm;
+    CMatrix<CDouble> m_cd;
+    CMatrix<CDouble> m_cf;
+    CMatrix<CDouble> m_cm;
     
-    CMatrix<CTable<double>> m_xdMinMax;
-    CMatrix<CTable<double>> m_xfMinMax;
-    CMatrix<CTable<double>> m_xmMinMax;
+    CMatrix<CRange> m_xdMinMax;
+    CMatrix<CRange> m_xfMinMax;
+    CMatrix<CRange> m_xmMinMax;
     
     int check(double* pSolution, int solutionSize);
     SSolution parseSolution(double* pSolution);
@@ -59,29 +61,31 @@ public:
     void setMCount(int mCount);
     void setSCount(int sCount);
     
-    void setInSd(double value, int offSet);
-    void setInSf(double value, int offSet);
-    void setInSm(double value, int offSet);
-    void setInSs(double value, int offSet);
-    void setInUd(double value, int offSet);
-    void setInUf(double value, int offSet);
-    void setInUm(double value, int offSet);
-    void setInPs(double value, int offSet);
+    void setInSd(CDouble value, int offSet);
+    void setInSf(CDouble value, int offSet);
+    void setInSm(CDouble value, int offSet);
+    void setInSs(CDouble value, int offSet);
+    void setInUd(CDouble value, int offSet);
+    void setInUf(CDouble value, int offSet);
+    void setInUm(CDouble value, int offSet);
+    void setInPs(CDouble value, int offSet);
     
-    void setInXdMinMax(double value, int offSetX, int offSetY, int minOrMax);
-    void setInXfMinMax(double value, int offSetX, int offSetY, int minOrMax);
-    void setInXmMinMax(double value, int offSetX, int offSetY, int minOrMax);
+    void setInXdMinMax(CDouble value, int offSetX, int offSetY, int minOrMax);
+    void setInXfMinMax(CDouble value, int offSetX, int offSetY, int minOrMax);
+    void setInXmMinMax(CDouble value, int offSetX, int offSetY, int minOrMax);
     
 //---getters---
-    double getKt(CMatrix<double>& xd, CMatrix<double>& xf, CMatrix<double>& xm);
-    double getKu(CMatrix<double>& xd, CMatrix<double>& xf, CMatrix<double>& xm);
-    double getP(CMatrix<double>& xm);
-    CTable<CTable<double>> getMinMaxSolutionTable();
+    double getKt(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm);
+    double getKu(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm);
+    double getP(CMatrix<CDouble>& xm);
+    CTable<CRange> getMinMaxSolutionTable();
     
 //---required methods---
     
     double getQuality(double* pSolution, int& error, int solutionSize);
     bool constraintsSatisfied(double* pSolution, int& error, int solutionSize);
+    
+    bool randomize();
 
 //---files handler methods (read, write)---
     

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		270C6C6323BA040200E05B79 /* MscnProblem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C6223BA040200E05B79 /* MscnProblem.cpp */; };
+		270C6C6923BB4A7E00E05B79 /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C6823BB4A7E00E05B79 /* Random.cpp */; };
+		270C6C6D23BB8F6400E05B79 /* Range.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C6B23BB8F6400E05B79 /* Range.cpp */; };
+		270C6C7123BCB71000E05B79 /* Double.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C6F23BCB71000E05B79 /* Double.cpp */; };
+		270C6C7523BCD61D00E05B79 /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C7323BCD61D00E05B79 /* Archive.cpp */; };
 		271825C623B6ACEE0030A4EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271825C523B6ACEE0030A4EF /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +31,14 @@
 		270C6C6123B8D28400E05B79 /* MscnProblem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MscnProblem.h; sourceTree = "<group>"; };
 		270C6C6223BA040200E05B79 /* MscnProblem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MscnProblem.cpp; sourceTree = "<group>"; };
 		270C6C6523BA53E400E05B79 /* Consts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Consts.h; sourceTree = "<group>"; };
+		270C6C6723BB4A6E00E05B79 /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		270C6C6823BB4A7E00E05B79 /* Random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
+		270C6C6B23BB8F6400E05B79 /* Range.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Range.cpp; sourceTree = "<group>"; };
+		270C6C6C23BB8F6400E05B79 /* Range.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
+		270C6C6F23BCB71000E05B79 /* Double.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Double.cpp; sourceTree = "<group>"; };
+		270C6C7023BCB71000E05B79 /* Double.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Double.h; sourceTree = "<group>"; };
+		270C6C7323BCD61D00E05B79 /* Archive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
+		270C6C7423BCD61D00E05B79 /* Archive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Archive.h; sourceTree = "<group>"; };
 		271825C223B6ACEE0030A4EF /* TEP Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TEP Project"; sourceTree = BUILT_PRODUCTS_DIR; };
 		271825C523B6ACEE0030A4EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		271825CF23B6AD430030A4EF /* Matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
@@ -62,6 +74,42 @@
 			path = consts;
 			sourceTree = "<group>";
 		};
+		270C6C6623BB49F200E05B79 /* Random */ = {
+			isa = PBXGroup;
+			children = (
+				270C6C6723BB4A6E00E05B79 /* Random.h */,
+				270C6C6823BB4A7E00E05B79 /* Random.cpp */,
+			);
+			path = Random;
+			sourceTree = "<group>";
+		};
+		270C6C6A23BB8EF300E05B79 /* Range */ = {
+			isa = PBXGroup;
+			children = (
+				270C6C6B23BB8F6400E05B79 /* Range.cpp */,
+				270C6C6C23BB8F6400E05B79 /* Range.h */,
+			);
+			path = Range;
+			sourceTree = "<group>";
+		};
+		270C6C6E23BCB6FB00E05B79 /* Double */ = {
+			isa = PBXGroup;
+			children = (
+				270C6C6F23BCB71000E05B79 /* Double.cpp */,
+				270C6C7023BCB71000E05B79 /* Double.h */,
+			);
+			path = Double;
+			sourceTree = "<group>";
+		};
+		270C6C7223BCD60800E05B79 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				270C6C7323BCD61D00E05B79 /* Archive.cpp */,
+				270C6C7423BCD61D00E05B79 /* Archive.h */,
+			);
+			path = Archive;
+			sourceTree = "<group>";
+		};
 		271825B923B6ACEE0030A4EF = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +140,10 @@
 		271825CC23B6AD0A0030A4EF /* core */ = {
 			isa = PBXGroup;
 			children = (
+				270C6C7223BCD60800E05B79 /* Archive */,
+				270C6C6E23BCB6FB00E05B79 /* Double */,
+				270C6C6A23BB8EF300E05B79 /* Range */,
+				270C6C6623BB49F200E05B79 /* Random */,
 				271825CF23B6AD430030A4EF /* Matrix.h */,
 				271825D223B805B50030A4EF /* Table.h */,
 				271825D523B807010030A4EF /* MySmartPointer.h */,
@@ -156,8 +208,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				270C6C6923BB4A7E00E05B79 /* Random.cpp in Sources */,
 				270C6C6323BA040200E05B79 /* MscnProblem.cpp in Sources */,
+				270C6C7523BCD61D00E05B79 /* Archive.cpp in Sources */,
+				270C6C7123BCB71000E05B79 /* Double.cpp in Sources */,
 				271825C623B6ACEE0030A4EF /* main.cpp in Sources */,
+				270C6C6D23BB8F6400E05B79 /* Range.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

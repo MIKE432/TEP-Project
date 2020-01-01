@@ -13,8 +13,10 @@
 #include "Table.h"
 #include "Consts.h"
 
+using namespace std;
 
-SSolution::SSolution(CMatrix<double> xd, CMatrix<double> xf, CMatrix<double> xm) {
+
+SSolution::SSolution(CMatrix<CDouble> xd, CMatrix<CDouble> xf, CMatrix<CDouble> xm) {
     
     m_xd = xd;
     m_xf = xf;
@@ -23,13 +25,20 @@ SSolution::SSolution(CMatrix<double> xd, CMatrix<double> xf, CMatrix<double> xm)
 
 CMscnProblem::CMscnProblem() {
     
-    setDCount(DEFAULT_MSCN_PROBLEM_D_COUNT);
-    setFCount(DEFAULT_MSCN_PROBLEM_F_COUNT);
-    setMCount(DEFAULT_MSCN_PROBLEM_M_COUNT);
-    setSCount(DEFAULT_MSCN_PROBLEM_S_COUNT);
+    m_dCount = DEFAULT_MSCN_PROBLEM_D_COUNT;
+    m_fCount = DEFAULT_MSCN_PROBLEM_F_COUNT;
+    m_mCount = DEFAULT_MSCN_PROBLEM_M_COUNT;
+    m_sCount = DEFAULT_MSCN_PROBLEM_S_COUNT;
+    
+    setDCount(m_dCount);
+    setFCount(m_fCount);
+    setMCount(m_mCount);
+    setSCount(m_sCount);
 }
 
 void CMscnProblem::setDCount(int dCount) {
+    
+    m_dCount = dCount;
     
     m_sd.resize(dCount);
     m_cd.resize(dCount, m_fCount);
@@ -38,6 +47,8 @@ void CMscnProblem::setDCount(int dCount) {
 }
 
 void CMscnProblem::setFCount(int fCount) {
+    
+    m_fCount = fCount;
     
     m_sf.resize(fCount);
     m_cd.resize(m_dCount, fCount);
@@ -49,6 +60,8 @@ void CMscnProblem::setFCount(int fCount) {
 
 void CMscnProblem::setMCount(int mCount) {
     
+    m_mCount = mCount;
+    
     m_sm.resize(mCount);
     m_cf.resize(m_fCount, mCount);
     m_cm.resize(mCount, m_sCount);
@@ -59,68 +72,70 @@ void CMscnProblem::setMCount(int mCount) {
 
 void CMscnProblem::setSCount(int sCount) {
     
+    m_sCount = sCount;
+    
     m_ss.resize(sCount);
     m_cm.resize(m_mCount, sCount);
     m_ps.resize(sCount);
     m_xmMinMax.resize(m_mCount, sCount);
 }
 
-void CMscnProblem::setInSd(double value, int offSet) {
+void CMscnProblem::setInSd(CDouble value, int offSet) {
     
     m_sd[offSet] = value;
 }
 
-void CMscnProblem::setInSf(double value, int offSet) {
+void CMscnProblem::setInSf(CDouble value, int offSet) {
     
     m_sf[offSet] = value;
 }
 
-void CMscnProblem::setInSm(double value, int offSet) {
+void CMscnProblem::setInSm(CDouble value, int offSet) {
     
     m_sm[offSet] = value;
 }
 
-void CMscnProblem::setInSs(double value, int offSet) {
+void CMscnProblem::setInSs(CDouble value, int offSet) {
     
     m_ss[offSet] = value;
 }
 
-void CMscnProblem::setInUd(double value, int offSet) {
+void CMscnProblem::setInUd(CDouble value, int offSet) {
     
     m_ud[offSet] = value;
 }
 
-void CMscnProblem::setInUf(double value, int offSet) {
+void CMscnProblem::setInUf(CDouble value, int offSet) {
     
     m_uf[offSet] = value;
 }
 
-void CMscnProblem::setInUm(double value, int offSet) {
+void CMscnProblem::setInUm(CDouble value, int offSet) {
     
     m_um[offSet] = value;
 }
 
-void CMscnProblem::setInPs(double value, int offSet) {
+void CMscnProblem::setInPs(CDouble value, int offSet) {
     
     m_ps[offSet] = value;
 }
 
-void CMscnProblem::setInXdMinMax(double value, int offSetX, int offSetY, int minOrMax) {
+void CMscnProblem::setInXdMinMax(CDouble value, int offSetX, int offSetY, int minOrMax) {
     
     m_xdMinMax[offSetX][offSetY][minOrMax] = value;
 }
 
-void CMscnProblem::setInXfMinMax(double value, int offSetX, int offSetY, int minOrMax) {
+void CMscnProblem::setInXfMinMax(CDouble value, int offSetX, int offSetY, int minOrMax) {
     
     m_xfMinMax[offSetX][offSetY][minOrMax] = value;
 }
 
-void CMscnProblem::setInXmMinMax(double value, int offSetX, int offSetY, int minOrMax) {
+void CMscnProblem::setInXmMinMax(CDouble value, int offSetX, int offSetY, int minOrMax) {
     
     m_xmMinMax[offSetX][offSetY][minOrMax] = value;
 }
 
-double CMscnProblem::getP(CMatrix<double>& xm) {
+double CMscnProblem::getP(CMatrix<CDouble>& xm) {
     
     double result = 0;
     
@@ -128,13 +143,13 @@ double CMscnProblem::getP(CMatrix<double>& xm) {
         
         for(int s = 0; s < m_sCount; s++) {
             
-            result += m_ps[s] * xm[m][s];
+            result += m_ps[s].get() * xm[m][s].get();
         }
     }
     return result;
 }
 
-double CMscnProblem::getKu(CMatrix<double>& xd, CMatrix<double>& xf, CMatrix<double>& xm) {
+double CMscnProblem::getKu(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
     
     double result = 0;
     
@@ -142,7 +157,7 @@ double CMscnProblem::getKu(CMatrix<double>& xd, CMatrix<double>& xf, CMatrix<dou
         
         for(int f = 0; f < m_fCount; f++) {
             
-            result += m_cd[d][f] * xd[d][f];
+            result += m_cd[d][f].get() * xd[d][f].get();
         }
     }
     
@@ -150,7 +165,7 @@ double CMscnProblem::getKu(CMatrix<double>& xd, CMatrix<double>& xf, CMatrix<dou
         
         for(int m = 0; m < m_mCount; m++) {
             
-            result += m_cf[f][m] * xf[f][m];
+            result += m_cf[f][m].get() * xf[f][m].get();
         }
     }
     
@@ -158,32 +173,32 @@ double CMscnProblem::getKu(CMatrix<double>& xd, CMatrix<double>& xf, CMatrix<dou
         
         for(int s = 0; s < m_fCount; s++) {
             
-            result += m_cm[m][s] * xm[m][s];
+            result += m_cm[m][s].get() * xm[m][s].get();
         }
     }
     
     return result;
 }
 
-double CMscnProblem::getKt(CMatrix<double>& xd, CMatrix<double>& xf, CMatrix<double>& xm) {
+double CMscnProblem::getKt(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
     
     double result = 0;
     
     for(int d = 0; d < m_dCount; d++) {
         if(xd.rowSumHigherThanZero(d))
-            result += m_ud[d];
+            result += m_ud[d].get();
     }
     
     
     for(int f = 0; f < m_fCount; f++) {
         if(xf.rowSumHigherThanZero(f))
-            result += m_uf[f];
+            result += m_uf[f].get();
     }
     
     
     for(int m = 0; m < m_mCount; m++) {
         if(xm.rowSumHigherThanZero(m))
-            result += m_um[m];
+            result += m_um[m].get();
     }
     
     return result;
@@ -198,9 +213,9 @@ double CMscnProblem::getQuality(double* pSolution, int& error, int solutionSize)
     
     SSolution parsedSolution = parseSolution(pSolution);
     
-    CMatrix<double> xd = parsedSolution.m_xd;
-    CMatrix<double> xf = parsedSolution.m_xf;
-    CMatrix<double> xm = parsedSolution.m_xm;
+    CMatrix<CDouble> xd = parsedSolution.m_xd;
+    CMatrix<CDouble> xf = parsedSolution.m_xf;
+    CMatrix<CDouble> xm = parsedSolution.m_xm;
     
     
     return (getP(xd) - getKt(xd, xf, xm) - getKu(xd, xf, xm));
@@ -208,12 +223,53 @@ double CMscnProblem::getQuality(double* pSolution, int& error, int solutionSize)
 
 bool CMscnProblem::constraintsSatisfied(double* pSolution, int& error, int solutionSize) {
     
+    error = check(pSolution, solutionSize);
     
+    if(!error)
+        return false;
     
+    SSolution parsedSolution = parseSolution(pSolution);
     
+    CMatrix<CDouble> xd = parsedSolution.m_xd;
+    CMatrix<CDouble> xf = parsedSolution.m_xf;
+    CMatrix<CDouble> xm = parsedSolution.m_xm;
     
+
+    for(int d = 0; d < m_dCount; d++) {
+        
+        if(xd.sumInRowOrColumn('c', d) > m_sd[d].get())
+            return false;
+    }
     
+    for(int f = 0; f < m_fCount; f++) {
+        
+        if(xf.sumInRowOrColumn('c', f) > m_sf[f].get())
+            return false;
+    }
     
+    for(int m = 0; m < m_mCount; m++) {
+        
+        if(xm.sumInRowOrColumn('c', m) > m_sm[m].get())
+            return false;
+    }
+    
+    for(int s = 0; s < m_sCount; s++) {
+        
+        if(xm.sumInRowOrColumn('r', s) > m_ss[s].get())
+            return false;
+    }
+    
+    for(int f = 0; f < m_fCount; f++) {
+        
+        if(xd.sumInRowOrColumn('r', f) < xf.sumInRowOrColumn('c', f))
+            return false;
+    }
+    
+    for(int m = 0; m < m_mCount; m++) {
+        
+        if(xf.sumInRowOrColumn('r', m) > xm.sumInRowOrColumn('c', m))
+            return false;
+    }
     
     return true;
 }
@@ -236,9 +292,9 @@ int CMscnProblem::check(double* pSolution, int solutionSize) {
 
 SSolution CMscnProblem::parseSolution(double* pSolution) {
     
-    CMatrix<double> xd(m_dCount, m_fCount);
-    CMatrix<double> xf(m_fCount, m_mCount);
-    CMatrix<double> xm(m_mCount, m_sCount);
+    CMatrix<CDouble> xd(m_dCount, m_fCount);
+    CMatrix<CDouble> xf(m_fCount, m_mCount);
+    CMatrix<CDouble> xm(m_mCount, m_sCount);
     
     int counter = 0;
     
@@ -269,16 +325,11 @@ SSolution CMscnProblem::parseSolution(double* pSolution) {
     return SSolution(xd, xf, xm);
 }
 
-CTable<CTable<double>> CMscnProblem::getMinMaxSolutionTable() {
+CTable<CRange> CMscnProblem::getMinMaxSolutionTable() {
     
     int solutionSize = getSolutionSize();
     int counter = 0;
-    CTable<CTable<double>> minMaxTable(solutionSize);
-    
-    for(int i = 0; i < solutionSize; i++) {
-        
-        minMaxTable[i] = CTable<double>(2);
-    }
+    CTable<CRange> minMaxTable(solutionSize);
     
     for(int d = 0; d < m_dCount; d++) {
         
@@ -308,4 +359,20 @@ CTable<CTable<double>> CMscnProblem::getMinMaxSolutionTable() {
     }
     
     return minMaxTable;
+}
+
+bool CMscnProblem::readFromFile(FILE *file) {
+    
+    
+    return true;
+}
+
+bool CMscnProblem::writeToFile(FILE *file) {
+    
+    
+    return true;
+}
+
+bool CMscnProblem::randomize() {
+    return true;
 }

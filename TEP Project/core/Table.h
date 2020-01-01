@@ -9,7 +9,8 @@
 #ifndef Table_h
 #define Table_h
 
-#define DEFAULT_TABLE_SIZE 0
+#include "Consts.h"
+#include "Random.h"
 
 template<typename TYPE>
 class CTable {
@@ -26,34 +27,45 @@ public:
     bool set(TYPE element, int offSet);
     TYPE& get(int offSet);
     TYPE& operator [] (int offSet);
+    
+    bool randomize(const CRandom& random);
 };
 
 //---constructors---
 template<typename TYPE> CTable<TYPE>::CTable(int size)
-: m_pTable(new TYPE[size]), m_tableSize(size) {
-
+: m_pTable(NULL), m_tableSize(size) {
+    
+    if(m_tableSize > 0)
+        m_pTable = new TYPE[m_tableSize];
 }
 
 template<typename TYPE> CTable<TYPE>::CTable()
-: m_pTable(nullptr), m_tableSize(DEFAULT_TABLE_SIZE) {
-
+: m_pTable(NULL), m_tableSize(DEFAULT_TABLE_SIZE) {
+    
+    if(m_tableSize > 0)
+        m_pTable = new TYPE[m_tableSize];
 }
 
 template<typename TYPE> CTable<TYPE>::~CTable() {
     
-    if(m_pTable != nullptr)
+    if(m_pTable != NULL)
         delete[] m_pTable;
+
 }
 
 //---methods---
 template<typename TYPE> bool CTable<TYPE>::resize(int size) {
     
-    if(size > m_tableSize || m_pTable != nullptr)
-        return false;
+    if(m_pTable != NULL)
+        delete [] m_pTable;
     
     m_tableSize = size;
-    m_pTable = new TYPE[m_tableSize];
     
+    if(m_tableSize > 0)
+        m_pTable = new TYPE[m_tableSize];
+    else
+        m_pTable = NULL;
+
     return true;
 }
 
@@ -78,6 +90,11 @@ template<typename TYPE> TYPE& CTable<TYPE>::get(int offSet) {
 template<typename TYPE> TYPE& CTable<TYPE>::operator[](int offSet) {
     
     return m_pTable[offSet];
+}
+
+template<typename TYPE> bool CTable<TYPE>::randomize(const CRandom &random) {
+    
+    return true;
 }
 
 
