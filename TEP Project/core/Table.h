@@ -11,39 +11,65 @@
 
 #include "Consts.h"
 #include "Random.h"
+#include "Double.h"
 
 template<typename TYPE>
 class CTable {
 private:
     TYPE* m_pTable;
-    int m_tableSize;
+    int m_nTableSize;
     
 public:
     CTable();
     CTable(int size);
+    CTable(const CTable& otherTable);
     ~CTable();
     
-    bool resize(int size);
-    bool set(TYPE element, int offSet);
-    TYPE& get(int offSet);
-    TYPE& operator [] (int offSet);
+    bool Resize(int size);
+    bool set(TYPE element, int offset);
+    TYPE& get(int offset);
+    int GetSize();
+    TYPE& operator [] (int offset);
     
-    bool randomize(CRandom& random);
+    void operator = (const CTable& otherTable);
+    bool Randomize(CRandom& random);
 };
 
 //---constructors---
 template<typename TYPE> CTable<TYPE>::CTable(int size)
-: m_pTable(NULL), m_tableSize(size) {
+: m_pTable(NULL), m_nTableSize(size) {
     
-    if(m_tableSize > 0)
-        m_pTable = new TYPE[m_tableSize];
+    if(m_nTableSize > 0)
+        m_pTable = new TYPE[m_nTableSize];
 }
 
 template<typename TYPE> CTable<TYPE>::CTable()
-: m_pTable(NULL), m_tableSize(DEFAULT_TABLE_SIZE) {
+: m_pTable(NULL), m_nTableSize(DEFAULT_TABLE_SIZE) {
     
-    if(m_tableSize > 0)
-        m_pTable = new TYPE[m_tableSize];
+    if(m_nTableSize > 0)
+        m_pTable = new TYPE[m_nTableSize];
+}
+
+template<typename TYPE> CTable<TYPE>::CTable(const CTable& otherTable)
+: m_pTable(NULL), m_nTableSize(otherTable.m_nTableSize) {
+    
+    m_pTable = new TYPE[m_nTableSize];
+    
+    for(int i = 0; i < m_nTableSize; i++) {
+        m_pTable[i] = otherTable.m_pTable[i];
+    }
+}
+
+template<typename TYPE> void CTable<TYPE>::operator = (const CTable<TYPE>& otherTable) {
+    
+    if(m_pTable != NULL)
+        delete[] m_pTable;
+    
+    m_pTable = new TYPE[m_nTableSize];
+    
+    for(int i = 0; i < m_nTableSize; i++) {
+        m_pTable[i] = otherTable.m_pTable[i];
+    }
 }
 
 template<typename TYPE> CTable<TYPE>::~CTable() {
@@ -54,49 +80,54 @@ template<typename TYPE> CTable<TYPE>::~CTable() {
 }
 
 //---methods---
-template<typename TYPE> bool CTable<TYPE>::resize(int size) {
+template<typename TYPE> bool CTable<TYPE>::Resize(int size) {
     
     if(m_pTable != NULL)
         delete [] m_pTable;
     
-    m_tableSize = size;
+    m_nTableSize = size;
     
-    if(m_tableSize > 0)
-        m_pTable = new TYPE[m_tableSize];
+    if(m_nTableSize > 0)
+        m_pTable = new TYPE[m_nTableSize];
     else
         m_pTable = NULL;
 
     return true;
 }
 
-template<typename TYPE> bool CTable<TYPE>::set(TYPE element, int offSet) {
+template<typename TYPE> bool CTable<TYPE>::set(TYPE element, int offset) {
     
-    if(offSet > m_tableSize || m_tableSize != nullptr)
+    if(offset > m_nTableSize || m_nTableSize != nullptr)
         return false;
     
-    m_pTable[offSet] = element;
+    m_pTable[offset] = element;
     
     return true;
 }
 
-template<typename TYPE> TYPE& CTable<TYPE>::get(int offSet) {
+template<typename TYPE> TYPE& CTable<TYPE>::get(int offset) {
     
-    if(offSet > m_tableSize || m_tableSize != nullptr)
+    if(offset > m_nTableSize || m_nTableSize != nullptr)
         return NULL;
     
-    return m_pTable[offSet];
+    return m_pTable[offset];
 }
 
-template<typename TYPE> TYPE& CTable<TYPE>::operator[](int offSet) {
+template<typename TYPE> int CTable<TYPE>::GetSize() {
     
-    return m_pTable[offSet];
+    return m_nTableSize;
 }
 
-template<typename TYPE> bool CTable<TYPE>::randomize(CRandom& random) {
+template<typename TYPE> TYPE& CTable<TYPE>::operator[] (int offset) {
     
-    for(int i = 0; i < m_tableSize; i++) {
+    return m_pTable[offset];
+}
+
+template<typename TYPE> bool CTable<TYPE>::Randomize(CRandom& random) {
+    
+    for(int i = 0; i < m_nTableSize; i++) {
         
-        m_pTable[i].randomize(random);
+        m_pTable[i].Randomize(random);
     }
     
     return true;

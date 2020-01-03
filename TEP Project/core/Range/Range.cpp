@@ -24,27 +24,27 @@ CRange::CRange(const CRange& otherCRange)
     
 }
 
-CDouble& CRange::getMin() {
+CDouble& CRange::GetMin() {
 
     return m_dMin;
 }
 
-CDouble& CRange::getMax() {
+CDouble& CRange::GetMax() {
 
     return m_dMax;
 }
 
-void CRange::setMax(const CDouble& otherDouble) {
+void CRange::SetMax(const CDouble& otherDouble) {
     
     m_dMax = otherDouble;
 }
 
-void CRange::setMin(const CDouble& otherDouble) {
+void CRange::SetMin(const CDouble& otherDouble) {
     
     m_dMin = otherDouble;
 }
 
-bool CRange::randomize(CRandom &random) {
+bool CRange::Randomize(CRandom &random) {
     
     double d1 = random.Generate();
     double d2 = random.Generate();

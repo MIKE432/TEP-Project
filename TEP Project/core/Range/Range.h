@@ -24,15 +24,15 @@ public:
     CRange(CDouble min, CDouble max);
     CRange(const CRange& otherCRange);
     
-    CDouble& getMin();
-    CDouble& getMax();
-    void setMax(const CDouble& otherDouble);
-    void setMin(const CDouble& otherDouble);
+    CDouble& GetMin();
+    CDouble& GetMax();
+    void SetMax(const CDouble& otherDouble);
+    void SetMin(const CDouble& otherDouble);
     
     CDouble operator [] (int minOrMax);
     CRange& operator = (const CRange& otherCRange);
     
-    bool randomize(CRandom& random);
+    bool Randomize(CRandom& random);
 };
 
 #endif /* CRange_hpp */

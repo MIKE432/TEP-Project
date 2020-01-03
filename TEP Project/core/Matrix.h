@@ -31,7 +31,7 @@ public:
     ~CMatrix();
     
     bool set(const TYPE& element, int offsetX, int offsetY);
-    bool resize(int sizeX, int sizeY);
+    bool Resize(int sizeX, int sizeY);
     TYPE& get(int offsetX, int offsetY);
 //    void print() {
 //        for(int j = 0; j < m_nSizeY; j++) {
@@ -49,7 +49,7 @@ public:
     double getYSize() { return m_nSizeY; }
     TYPE* operator [] (int offsetX);
     
-    bool randomize(CRandom& random);
+    bool Randomize(CRandom& random);
 };
 
 //---constructors---
@@ -89,7 +89,7 @@ template<typename TYPE> CMatrix<TYPE>::~CMatrix() {
 }
 
 //---methods---
-template<typename TYPE> bool CMatrix<TYPE>::resize(int sizeX, int sizeY) {
+template<typename TYPE> bool CMatrix<TYPE>::Resize(int sizeX, int sizeY) {
     
     if(sizeX < 0 || sizeY < 0)
         return false;
@@ -178,13 +178,13 @@ template<typename TYPE> CDouble CMatrix<TYPE>::sumInRowOrColumn(char flag, int r
     
 }
 
-template<typename TYPE> bool CMatrix<TYPE>::randomize(CRandom& random) {
+template<typename TYPE> bool CMatrix<TYPE>::Randomize(CRandom& random) {
     
     for(int x = 0; x < m_nSizeX; x++) {
         
         for(int y = 0; y < m_nSizeY; y++) {
             
-            m_ppMatrix[x][y].randomize(random);
+            m_ppMatrix[x][y].Randomize(random);
         }
     }
     

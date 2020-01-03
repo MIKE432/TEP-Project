@@ -12,6 +12,7 @@
 		270C6C6D23BB8F6400E05B79 /* Range.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C6B23BB8F6400E05B79 /* Range.cpp */; };
 		270C6C7123BCB71000E05B79 /* Double.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C6F23BCB71000E05B79 /* Double.cpp */; };
 		270C6C7523BCD61D00E05B79 /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C7323BCD61D00E05B79 /* Archive.cpp */; };
+		270C6C7823BFD24100E05B79 /* RandomSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C7623BFD24100E05B79 /* RandomSearch.cpp */; };
 		271825C623B6ACEE0030A4EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271825C523B6ACEE0030A4EF /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,8 @@
 		270C6C7023BCB71000E05B79 /* Double.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Double.h; sourceTree = "<group>"; };
 		270C6C7323BCD61D00E05B79 /* Archive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
 		270C6C7423BCD61D00E05B79 /* Archive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Archive.h; sourceTree = "<group>"; };
+		270C6C7623BFD24100E05B79 /* RandomSearch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RandomSearch.cpp; sourceTree = "<group>"; };
+		270C6C7723BFD24100E05B79 /* RandomSearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RandomSearch.h; sourceTree = "<group>"; };
 		271825C223B6ACEE0030A4EF /* TEP Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TEP Project"; sourceTree = BUILT_PRODUCTS_DIR; };
 		271825C523B6ACEE0030A4EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		271825CF23B6AD430030A4EF /* Matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
@@ -79,6 +82,8 @@
 			children = (
 				270C6C6723BB4A6E00E05B79 /* Random.h */,
 				270C6C6823BB4A7E00E05B79 /* Random.cpp */,
+				270C6C7623BFD24100E05B79 /* RandomSearch.cpp */,
+				270C6C7723BFD24100E05B79 /* RandomSearch.h */,
 			);
 			path = Random;
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 			files = (
 				270C6C6923BB4A7E00E05B79 /* Random.cpp in Sources */,
 				270C6C6323BA040200E05B79 /* MscnProblem.cpp in Sources */,
+				270C6C7823BFD24100E05B79 /* RandomSearch.cpp in Sources */,
 				270C6C7523BCD61D00E05B79 /* Archive.cpp in Sources */,
 				270C6C7123BCB71000E05B79 /* Double.cpp in Sources */,
 				271825C623B6ACEE0030A4EF /* main.cpp in Sources */,

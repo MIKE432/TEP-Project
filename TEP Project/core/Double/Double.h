@@ -24,13 +24,13 @@ public:
     CDouble();
     CDouble(double num);
     
-    void set(double num);
-    double get() const;
+    void Set(double num);
+    double Get() const;
     
     string ToString();
     bool Parse(string s, string::size_type* pRead = NULL);
     
-    bool randomize(CRandom& random);
+    bool Randomize(CRandom& random);
     
     CDouble& operator = (const CDouble& otherDouble);
     CDouble& operator = (double double1);

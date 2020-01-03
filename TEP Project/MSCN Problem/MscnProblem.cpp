@@ -24,289 +24,289 @@ SSolution::SSolution(CMatrix<CDouble> xd, CMatrix<CDouble> xf, CMatrix<CDouble> 
 }
 
 CMscnProblem::CMscnProblem()
-: m_dCount( DEFAULT_MSCN_PROBLEM_D_COUNT )
-, m_fCount( DEFAULT_MSCN_PROBLEM_F_COUNT )
-, m_mCount( DEFAULT_MSCN_PROBLEM_M_COUNT )
-, m_sCount( DEFAULT_MSCN_PROBLEM_S_COUNT ) {
+: m_nSizeD( DEFAULT_MSCN_PROBLEM_D_COUNT )
+, m_nSizeF( DEFAULT_MSCN_PROBLEM_F_COUNT )
+, m_nSizeM( DEFAULT_MSCN_PROBLEM_M_COUNT )
+, m_nSizeS( DEFAULT_MSCN_PROBLEM_S_COUNT ) {
 
     Init();
 }
 
 void CMscnProblem::Init() {
     
-    m_sd.resize(m_dCount);
-    m_sf.resize(m_fCount);
-    m_ss.resize(m_sCount);
-    m_sm.resize(m_mCount);
+    m_tableSD.Resize(m_nSizeD);
+    m_tableSF.Resize(m_nSizeF);
+    m_tableSS.Resize(m_nSizeS);
+    m_tableSM.Resize(m_nSizeM);
     
-    m_ud.resize(m_dCount);
-    m_uf.resize(m_fCount);
-    m_um.resize(m_mCount);
-    m_ps.resize(m_sCount);
+    m_tableUD.Resize(m_nSizeD);
+    m_tableUF.Resize(m_nSizeF);
+    m_tableUM.Resize(m_nSizeM);
+    m_tablePS.Resize(m_nSizeS);
     
-    m_cd.resize(m_dCount, m_fCount);
-    m_cf.resize(m_fCount, m_mCount);
-    m_cm.resize(m_mCount, m_sCount);
+    m_matrixCD.Resize(m_nSizeD, m_nSizeF);
+    m_matrixCF.Resize(m_nSizeF, m_nSizeM);
+    m_matrixCM.Resize(m_nSizeM, m_nSizeS);
     
-    m_xdMinMax.resize(m_dCount, m_fCount);
-    m_xfMinMax.resize(m_fCount, m_mCount);
-    m_xmMinMax.resize(m_mCount, m_sCount);
+    m_matrixMinMaxXD.Resize(m_nSizeD, m_nSizeF);
+    m_matrixMinMaxXF.Resize(m_nSizeF, m_nSizeM);
+    m_matrixMinMaxXM.Resize(m_nSizeM, m_nSizeS);
 }
 
-bool CMscnProblem::randomize(CRandom& random) {
+bool CMscnProblem::Randomize(CRandom& random) {
 
     
-    m_sd.randomize(random.SetRange(0, 50));
-    m_sf.randomize(random.SetRange(0, 50));
-    m_ss.randomize(random.SetRange(0, 50));
-    m_sm.randomize(random.SetRange(0, 50));
+    m_tableSD.Randomize(random.SetRange(DEFAULT_MSCN_S_RANDOM_MIN_VALUE, DEFAULT_MSCN_S_RANDOM_MAX_VALUE));
+    m_tableSF.Randomize(random.SetRange(DEFAULT_MSCN_S_RANDOM_MIN_VALUE, DEFAULT_MSCN_S_RANDOM_MAX_VALUE));
+    m_tableSS.Randomize(random.SetRange(DEFAULT_MSCN_S_RANDOM_MIN_VALUE, DEFAULT_MSCN_S_RANDOM_MAX_VALUE));
+    m_tableSM.Randomize(random.SetRange(DEFAULT_MSCN_S_RANDOM_MIN_VALUE, DEFAULT_MSCN_S_RANDOM_MAX_VALUE));
     
-    m_ud.randomize(random.SetRange(0, 50));
-    m_uf.randomize(random.SetRange(0, 50));
-    m_um.randomize(random.SetRange(0, 50));
-    m_ps.randomize(random.SetRange(0, 50));
+    m_tableUD.Randomize(random.SetRange(DEFAULT_MSCN_U_RANDOM_MIN_VALUE, DEFAULT_MSCN_U_RANDOM_MAX_VALUE));
+    m_tableUF.Randomize(random.SetRange(DEFAULT_MSCN_U_RANDOM_MIN_VALUE, DEFAULT_MSCN_U_RANDOM_MAX_VALUE));
+    m_tableUM.Randomize(random.SetRange(DEFAULT_MSCN_U_RANDOM_MIN_VALUE, DEFAULT_MSCN_U_RANDOM_MAX_VALUE));
+    m_tablePS.Randomize(random.SetRange(DEFAULT_MSCN_P_RANDOM_MIN_VALUE, DEFAULT_MSCN_P_RANDOM_MAX_VALUE));
     
-    m_cd.randomize(random.SetRange(0, 50));
-    m_cf.randomize(random.SetRange(0, 50));
-    m_cm.randomize(random.SetRange(0, 50));
+    m_matrixCD.Randomize(random.SetRange(DEFAULT_MSCN_C_RANDOM_MIN_VALUE, DEFAULT_MSCN_C_RANDOM_MAX_VALUE));
+    m_matrixCF.Randomize(random.SetRange(DEFAULT_MSCN_C_RANDOM_MIN_VALUE, DEFAULT_MSCN_C_RANDOM_MAX_VALUE));
+    m_matrixCM.Randomize(random.SetRange(DEFAULT_MSCN_C_RANDOM_MIN_VALUE, DEFAULT_MSCN_C_RANDOM_MAX_VALUE));
     
-    m_xdMinMax.randomize(random.SetRange(0, 50));
-    m_xfMinMax.randomize(random.SetRange(0, 50));
-    m_xmMinMax.randomize(random.SetRange(0, 50));
+    m_matrixMinMaxXD.Randomize(random.SetRange(0, 50));
+    m_matrixMinMaxXF.Randomize(random.SetRange(0, 50));
+    m_matrixMinMaxXM.Randomize(random.SetRange(0, 50));
 
     return true;
 }
 
-void CMscnProblem::setDCount(int dCount) {
+void CMscnProblem::SetSizeD(int sizeD) {
     
-    m_dCount = dCount;
+    m_nSizeD = sizeD;
     
-    m_sd.resize(dCount);
-    m_cd.resize(dCount, m_fCount);
-    m_ud.resize(dCount);
-    m_xdMinMax.resize(dCount, m_fCount);
+    m_tableSD.Resize(sizeD);
+    m_matrixCD.Resize(sizeD, m_nSizeF);
+    m_tableUD.Resize(sizeD);
+    m_matrixMinMaxXD.Resize(sizeD, m_nSizeF);
 }
 
-void CMscnProblem::setFCount(int fCount) {
+void CMscnProblem::SetSizeF(int sizeF) {
     
-    m_fCount = fCount;
+    m_nSizeF = sizeF;
     
-    m_sf.resize(fCount);
-    m_cd.resize(m_dCount, fCount);
-    m_cf.resize(fCount, m_mCount);
-    m_uf.resize(fCount);
-    m_xdMinMax.resize(m_dCount, fCount);
-    m_xfMinMax.resize(fCount, m_mCount);
+    m_tableSF.Resize(sizeF);
+    m_matrixCD.Resize(m_nSizeD, sizeF);
+    m_matrixCF.Resize(sizeF, m_nSizeM);
+    m_tableUF.Resize(sizeF);
+    m_matrixMinMaxXD.Resize(m_nSizeD, sizeF);
+    m_matrixMinMaxXF.Resize(sizeF, m_nSizeM);
 }
 
-void CMscnProblem::setMCount(int mCount) {
+void CMscnProblem::SetSizeM(int sizeM) {
     
-    m_mCount = mCount;
+    m_nSizeM = sizeM;
     
-    m_sm.resize(mCount);
-    m_cf.resize(m_fCount, mCount);
-    m_cm.resize(mCount, m_sCount);
-    m_um.resize(mCount);
-    m_xfMinMax.resize(m_fCount, mCount);
-    m_xmMinMax.resize(mCount, m_sCount);
+    m_tableSM.Resize(sizeM);
+    m_matrixCF.Resize(m_nSizeF, sizeM);
+    m_matrixCM.Resize(sizeM, m_nSizeS);
+    m_tableUM.Resize(sizeM);
+    m_matrixMinMaxXF.Resize(m_nSizeF, sizeM);
+    m_matrixMinMaxXM.Resize(sizeM, m_nSizeS);
 }
 
-void CMscnProblem::setSCount(int sCount) {
+void CMscnProblem::SetSizeS(int sizeS) {
     
-    m_sCount = sCount;
+    m_nSizeS = sizeS;
     
-    m_ss.resize(sCount);
-    m_cm.resize(m_mCount, sCount);
-    m_ps.resize(sCount);
-    m_xmMinMax.resize(m_mCount, sCount);
+    m_tableSS.Resize(sizeS);
+    m_matrixCM.Resize(m_nSizeM, sizeS);
+    m_tablePS.Resize(sizeS);
+    m_matrixMinMaxXM.Resize(m_nSizeM, sizeS);
 }
 
-void CMscnProblem::setInSd(CDouble value, int offSet) {
+void CMscnProblem::SetInSD(CDouble value, int offset) {
     
-    m_sd[offSet] = value;
+    m_tableSD[offset] = value;
 }
 
-void CMscnProblem::setInSf(CDouble value, int offSet) {
+void CMscnProblem::SetInSF(CDouble value, int offset) {
     
-    m_sf[offSet] = value;
+    m_tableSF[offset] = value;
 }
 
-void CMscnProblem::setInSm(CDouble value, int offSet) {
+void CMscnProblem::SetInSM(CDouble value, int offset) {
     
-    m_sm[offSet] = value;
+    m_tableSM[offset] = value;
 }
 
-void CMscnProblem::setInSs(CDouble value, int offSet) {
+void CMscnProblem::SetInSS(CDouble value, int offset) {
     
-    m_ss[offSet] = value;
+    m_tableSS[offset] = value;
 }
 
-void CMscnProblem::setInUd(CDouble value, int offSet) {
+void CMscnProblem::SetInUD(CDouble value, int offset) {
     
-    m_ud[offSet] = value;
+    m_tableUD[offset] = value;
 }
 
-void CMscnProblem::setInUf(CDouble value, int offSet) {
+void CMscnProblem::SetInUF(CDouble value, int offset) {
     
-    m_uf[offSet] = value;
+    m_tableUF[offset] = value;
 }
 
-void CMscnProblem::setInUm(CDouble value, int offSet) {
+void CMscnProblem::SetInUM(CDouble value, int offset) {
     
-    m_um[offSet] = value;
+    m_tableUM[offset] = value;
 }
 
-void CMscnProblem::setInPs(CDouble value, int offSet) {
+void CMscnProblem::SetInPS(CDouble value, int offset) {
     
-    m_ps[offSet] = value;
+    m_tablePS[offset] = value;
 }
 
-void CMscnProblem::setInXdMinMax(CDouble value, int offSetX, int offSetY, int minOrMax) {
+void CMscnProblem::SetInMinMaxXD(CDouble value, int offsetX, int offsetY, int minOrMax) {
     
-    m_xdMinMax[offSetX][offSetY][minOrMax] = value;
+    m_matrixMinMaxXD[offsetX][offsetY][minOrMax] = value;
 }
 
-void CMscnProblem::setInXfMinMax(CDouble value, int offSetX, int offSetY, int minOrMax) {
+void CMscnProblem::SetInMinMaxXF(CDouble value, int offsetX, int offsetY, int minOrMax) {
     
-    m_xfMinMax[offSetX][offSetY][minOrMax] = value;
+    m_matrixMinMaxXF[offsetX][offsetY][minOrMax] = value;
 }
 
-void CMscnProblem::setInXmMinMax(CDouble value, int offSetX, int offSetY, int minOrMax) {
+void CMscnProblem::SetInMinMaxXM(CDouble value, int offsetX, int offsetY, int minOrMax) {
     
-    m_xmMinMax[offSetX][offSetY][minOrMax] = value;
+    m_matrixMinMaxXM[offsetX][offsetY][minOrMax] = value;
 }
 
-double CMscnProblem::getP(CMatrix<CDouble>& xm) {
+double CMscnProblem::GetP(CMatrix<CDouble>& xm) {
     
     double result = 0;
     
-    for(int m = 0; m < m_mCount; m++) {
+    for(int m = 0; m < m_nSizeM; m++) {
         
-        for(int s = 0; s < m_sCount; s++) {
+        for(int s = 0; s < m_nSizeS; s++) {
             
-            result += m_ps[s].get() * xm[m][s].get();
+            result += m_tablePS[s].Get() * xm[m][s].Get();
         }
     }
     return result;
 }
 
-double CMscnProblem::getKu(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
+double CMscnProblem::GetKU(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
     
     double result = 0;
     
-    for(int d = 0; d < m_dCount; d++) {
+    for(int d = 0; d < m_nSizeD; d++) {
         
-        for(int f = 0; f < m_fCount; f++) {
+        for(int f = 0; f < m_nSizeF; f++) {
             
-            result += m_cd[d][f].get() * xd[d][f].get();
+            result += m_matrixCD[d][f].Get() * xd[d][f].Get();
         }
     }
     
-    for(int f = 0; f < m_fCount; f++) {
+    for(int f = 0; f < m_nSizeF; f++) {
         
-        for(int m = 0; m < m_mCount; m++) {
+        for(int m = 0; m < m_nSizeM; m++) {
             
-            result += m_cf[f][m].get() * xf[f][m].get();
+            result += m_matrixCF[f][m].Get() * xf[f][m].Get();
         }
     }
     
-    for(int m = 0; m < m_dCount; m++) {
+    for(int m = 0; m < m_nSizeD; m++) {
         
-        for(int s = 0; s < m_fCount; s++) {
+        for(int s = 0; s < m_nSizeF; s++) {
             
-            result += m_cm[m][s].get() * xm[m][s].get();
+            result += m_matrixCM[m][s].Get() * xm[m][s].Get();
         }
     }
     
     return result;
 }
 
-double CMscnProblem::getKt(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
+double CMscnProblem::GetKT(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
     
     double result = 0;
     
-    for(int d = 0; d < m_dCount; d++) {
+    for(int d = 0; d < m_nSizeD; d++) {
         if(xd.rowSumHigherThanZero(d))
-            result += m_ud[d].get();
+            result += m_tableUD[d].Get();
     }
     
     
-    for(int f = 0; f < m_fCount; f++) {
+    for(int f = 0; f < m_nSizeF; f++) {
         if(xf.rowSumHigherThanZero(f))
-            result += m_uf[f].get();
+            result += m_tableUF[f].Get();
     }
     
     
-    for(int m = 0; m < m_mCount; m++) {
+    for(int m = 0; m < m_nSizeM; m++) {
         if(xm.rowSumHigherThanZero(m))
-            result += m_um[m].get();
+            result += m_tableUM[m].Get();
     }
     
     return result;
 }
 
-double CMscnProblem::getQuality(double* pSolution, int& error, int solutionSize) {
+double CMscnProblem::GetQuality(double* pSolution, int& error, int solutionSize) {
     
-    error = check(pSolution, solutionSize);
+    error = Check(pSolution, solutionSize);
     
     if(!error)
         return 0;
     
-    SSolution parsedSolution = parseSolution(pSolution);
+    SSolution parsedSolution = ParseSolution(pSolution);
     
     CMatrix<CDouble> xd = parsedSolution.m_xd;
     CMatrix<CDouble> xf = parsedSolution.m_xf;
     CMatrix<CDouble> xm = parsedSolution.m_xm;
     
     
-    return (getP(xd) - getKt(xd, xf, xm) - getKu(xd, xf, xm));
+    return (GetP(xd) - GetKT(xd, xf, xm) - GetKU(xd, xf, xm));
 }
 
-bool CMscnProblem::constraintsSatisfied(double* pSolution, int& error, int solutionSize) {
+bool CMscnProblem::ConstraintsSatisfied(double* pSolution, int& error, int solutionSize) {
     
-    error = check(pSolution, solutionSize);
+    error = Check(pSolution, solutionSize);
     
     if(!error)
         return false;
     
-    SSolution parsedSolution = parseSolution(pSolution);
+    SSolution parsedSolution = ParseSolution(pSolution);
     
     CMatrix<CDouble> xd = parsedSolution.m_xd;
     CMatrix<CDouble> xf = parsedSolution.m_xf;
     CMatrix<CDouble> xm = parsedSolution.m_xm;
     
 
-    for(int d = 0; d < m_dCount; d++) {
+    for(int d = 0; d < m_nSizeD; d++) {
         
-        if(xd.sumInRowOrColumn('c', d) > m_sd[d].get())
+        if(xd.sumInRowOrColumn('c', d) > m_tableSD[d].Get())
             return false;
     }
     
-    for(int f = 0; f < m_fCount; f++) {
+    for(int f = 0; f < m_nSizeF; f++) {
         
-        if(xf.sumInRowOrColumn('c', f) > m_sf[f].get())
+        if(xf.sumInRowOrColumn('c', f) > m_tableSF[f].Get())
             return false;
     }
     
-    for(int m = 0; m < m_mCount; m++) {
+    for(int m = 0; m < m_nSizeM; m++) {
         
-        if(xm.sumInRowOrColumn('c', m) > m_sm[m].get())
+        if(xm.sumInRowOrColumn('c', m) > m_tableSM[m].Get())
             return false;
     }
     
-    for(int s = 0; s < m_sCount; s++) {
+    for(int s = 0; s < m_nSizeS; s++) {
         
-        if(xm.sumInRowOrColumn('r', s) > m_ss[s].get())
+        if(xm.sumInRowOrColumn('r', s) > m_tableSS[s].Get())
             return false;
     }
     
-    for(int f = 0; f < m_fCount; f++) {
+    for(int f = 0; f < m_nSizeF; f++) {
         
         if(xd.sumInRowOrColumn('r', f) < xf.sumInRowOrColumn('c', f))
             return false;
     }
     
-    for(int m = 0; m < m_mCount; m++) {
+    for(int m = 0; m < m_nSizeM; m++) {
         
         if(xf.sumInRowOrColumn('r', m) > xm.sumInRowOrColumn('c', m))
             return false;
@@ -315,49 +315,49 @@ bool CMscnProblem::constraintsSatisfied(double* pSolution, int& error, int solut
     return true;
 }
 
-int CMscnProblem::getSolutionSize() {
+int CMscnProblem::GetSolutionSize() {
     
-    return ((m_sCount * m_mCount) + (m_fCount * m_mCount) + (m_dCount * m_fCount));
+    return ((m_nSizeS * m_nSizeM) + (m_nSizeF * m_nSizeM) + (m_nSizeD * m_nSizeF));
 }
 
-int CMscnProblem::check(double* pSolution, int solutionSize) {
+int CMscnProblem::Check(double* pSolution, int solutionSize) {
     
     if(pSolution == nullptr)
         return NULL_SOLUTION_POINTER_ERROR;
     
-    if(solutionSize <= 0 || solutionSize > this->getSolutionSize())
+    if(solutionSize <= 0 || solutionSize > this->GetSolutionSize())
         return WRONG_SOLUTION_SIZE_ERROR;
     
     return NO_ERROR;
 }
 
-SSolution CMscnProblem::parseSolution(double* pSolution) {
+SSolution CMscnProblem::ParseSolution(double* pSolution) {
     
-    CMatrix<CDouble> xd(m_dCount, m_fCount);
-    CMatrix<CDouble> xf(m_fCount, m_mCount);
-    CMatrix<CDouble> xm(m_mCount, m_sCount);
+    CMatrix<CDouble> xd(m_nSizeD, m_nSizeF);
+    CMatrix<CDouble> xf(m_nSizeF, m_nSizeM);
+    CMatrix<CDouble> xm(m_nSizeM, m_nSizeS);
     
     int counter = 0;
     
-    for(int d = 0; d < m_dCount; d++) {
+    for(int d = 0; d < m_nSizeD; d++) {
         
-        for(int f = 0; f < m_fCount; f++) {
+        for(int f = 0; f < m_nSizeF; f++) {
             
             xd[d][f] = pSolution[counter++];
         }
     }
     
-    for(int f = 0; f < m_fCount; f++) {
+    for(int f = 0; f < m_nSizeF; f++) {
         
-        for(int m = 0; m < m_mCount; m++) {
+        for(int m = 0; m < m_nSizeM; m++) {
             
             xf[f][m] = pSolution[counter++];
         }
     }
     
-    for(int m = 0; m < m_mCount; m++) {
+    for(int m = 0; m < m_nSizeM; m++) {
         
-        for(int s = 0; s < m_sCount; s++) {
+        for(int s = 0; s < m_nSizeS; s++) {
             
             xm[m][s] = pSolution[counter++];
         }
@@ -366,49 +366,49 @@ SSolution CMscnProblem::parseSolution(double* pSolution) {
     return SSolution(xd, xf, xm);
 }
 
-CTable<CRange> CMscnProblem::getMinMaxSolutionTable() {
+CTable<CRange> CMscnProblem::GetMinMaxSolutionTable() {
     
-    int solutionSize = getSolutionSize();
+    int solutionSize = GetSolutionSize();
     int counter = 0;
     CTable<CRange> minMaxTable(solutionSize);
     
-    for(int d = 0; d < m_dCount; d++) {
+    for(int d = 0; d < m_nSizeD; d++) {
         
-        for(int f = 0; f < m_fCount; f++) {
+        for(int f = 0; f < m_nSizeF; f++) {
             
-            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_xdMinMax[d][f][MIN_VALUE_MSCN_MIN_MAX_TABLE];
-            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_xdMinMax[d][f][MAX_VALUE_MSCN_MIN_MAX_TABLE];
+            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXD[d][f][MIN_VALUE_MSCN_MIN_MAX_TABLE];
+            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXD[d][f][MAX_VALUE_MSCN_MIN_MAX_TABLE];
         }
     }
     
-    for(int f = 0; f < m_fCount; f++) {
+    for(int f = 0; f < m_nSizeF; f++) {
         
-        for(int m = 0; m < m_mCount; m++) {
+        for(int m = 0; m < m_nSizeM; m++) {
             
-            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_xfMinMax[f][m][MIN_VALUE_MSCN_MIN_MAX_TABLE];
-            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_xfMinMax[f][m][MAX_VALUE_MSCN_MIN_MAX_TABLE];
+            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXF[f][m][MIN_VALUE_MSCN_MIN_MAX_TABLE];
+            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXF[f][m][MAX_VALUE_MSCN_MIN_MAX_TABLE];
         }
     }
     
-    for(int m = 0; m < m_mCount; m++) {
+    for(int m = 0; m < m_nSizeM; m++) {
         
-        for(int s = 0; s < m_sCount; s++) {
+        for(int s = 0; s < m_nSizeS; s++) {
             
-            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_xmMinMax[m][s][MIN_VALUE_MSCN_MIN_MAX_TABLE];
-            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_xmMinMax[m][s][MAX_VALUE_MSCN_MIN_MAX_TABLE];
+            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXM[m][s][MIN_VALUE_MSCN_MIN_MAX_TABLE];
+            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXM[m][s][MAX_VALUE_MSCN_MIN_MAX_TABLE];
         }
     }
     
     return minMaxTable;
 }
 
-bool CMscnProblem::readFromFile(FILE *file) {
+bool CMscnProblem::ReadFromFile(FILE *file) {
     
     
     return true;
 }
 
-bool CMscnProblem::writeToFile(FILE *file) {
+bool CMscnProblem::WriteToFile(FILE *file) {
     
     
     return true;
