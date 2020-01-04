@@ -77,6 +77,19 @@ CRange& CRange::operator = (const CRange& otherCRange) {
     return *this;
 }
 
+void CRange::Store(CArchive& archive) {
+    
+    m_dMin.Store(archive);
+    archive<<space_w;
+    m_dMax.Store(archive);
+}
+
+void CRange::Load(CArchive& archive) {
+    
+    m_dMin.Load(archive);
+    archive>>space_r;
+    m_dMax.Load(archive);
+}
 
 
 

@@ -29,10 +29,16 @@ public:
     void SetMax(const CDouble& otherDouble);
     void SetMin(const CDouble& otherDouble);
     
+    void Store(CArchive& archive);
+    void Load(CArchive& archive);
+    
     CDouble operator [] (int minOrMax);
     CRange& operator = (const CRange& otherCRange);
     
     bool Randomize(CRandom& random);
+    string ToString();
+    
+    
 };
 
 #endif /* CRange_hpp */

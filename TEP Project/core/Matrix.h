@@ -10,11 +10,13 @@
 #define Matrix_h
 
 #include <stdio.h>
+#include <string>
 #include "MySmartPointer.h"
 #include "Consts.h"
 #include "Table.h"
 #include "Double.h"
 #include "Random.h"
+#include "Archive.h"
 
 using namespace std;
 
@@ -33,16 +35,6 @@ public:
     bool set(const TYPE& element, int offsetX, int offsetY);
     bool Resize(int sizeX, int sizeY);
     TYPE& get(int offsetX, int offsetY);
-//    void print() {
-//        for(int j = 0; j < m_nSizeY; j++) {
-//            for(int i = 0; i < m_nSizeX; i++) {
-//
-//                cout << m_ppMatrix[i][j];
-//            }
-//            cout << endl;
-//        }
-//    }
-//
     CDouble sumInRowOrColumn(char flag, int rowOrColumnNumber);
     bool rowSumHigherThanZero(int row);
     double getXSize() { return m_nSizeX; }
@@ -50,6 +42,8 @@ public:
     TYPE* operator [] (int offsetX);
     
     bool Randomize(CRandom& random);
+    int Store(CArchive& archive);
+    int Load(CArchive& archive);
 };
 
 //---constructors---
@@ -73,7 +67,6 @@ template<typename TYPE> CMatrix<TYPE>::CMatrix(int sizeX, int sizeY)
         
         m_ppMatrix[i] = new TYPE[m_nSizeY];
     }
-    
 }
 
 template<typename TYPE> CMatrix<TYPE>::~CMatrix() {
@@ -190,5 +183,40 @@ template<typename TYPE> bool CMatrix<TYPE>::Randomize(CRandom& random) {
     
     return true;
 }
+
+template<typename TYPE> int CMatrix<TYPE>::Store(CArchive &archive) {
+    
+    for(int x = 0; x < m_nSizeX; x++) {
+        
+        for(int y = 0; y < m_nSizeY; y++) {
+            
+            m_ppMatrix[x][y].Store(archive);
+            archive >> space_w;
+        }
+        
+        archive << endln_w;
+    }
+    
+    archive << endln_w;
+    return NO_ERROR;
+}
+
+template<typename TYPE> int CMatrix<TYPE>::Load(CArchive &archive) {
+    
+    for(int x = 0; x < m_nSizeX; x++) {
+        
+        for(int y = 0; y < m_nSizeY; y++) {
+            
+            m_ppMatrix[x][y].Load(archive);
+            archive << space_r;
+        }
+        
+        archive >> endln_r;
+    }
+    
+    archive >> endln_r;
+    return NO_ERROR;
+}
+
 
 #endif /* Matrix_hpp */

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string>
 #include "Random.h"
+#include "Archive.h"
 
 using namespace std;
 
@@ -19,7 +20,6 @@ class CDouble {
 private:
     double m_dValue;
     
-  
 public:
     CDouble();
     CDouble(double num);
@@ -27,10 +27,10 @@ public:
     void Set(double num);
     double Get() const;
     
-    string ToString();
-    bool Parse(string s, string::size_type* pRead = NULL);
-    
     bool Randomize(CRandom& random);
+    
+    void Store(CArchive& archive);
+    void Load(CArchive& archive);
     
     CDouble& operator = (const CDouble& otherDouble);
     CDouble& operator = (double double1);
@@ -48,10 +48,7 @@ public:
     bool operator == (const CDouble& otherDouble);
     bool operator == (double double1);
     bool operator != (const CDouble& otherDouble);
-    bool operator != (double double1);
-    
-//    operatory == !=
-    
+    bool operator != (double double1);    
 };
 
 #endif /* Double_h */

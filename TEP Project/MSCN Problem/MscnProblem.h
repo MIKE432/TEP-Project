@@ -14,6 +14,7 @@
 #include "Consts.h"
 #include "Double.h"
 #include "Range.h"
+#include "Archive.h"
 
 struct SSolution {
     CMatrix<CDouble> m_xf;
@@ -38,9 +39,9 @@ private:
     CTable<CDouble> m_tableUD;
     CTable<CDouble> m_tableUF;
     CTable<CDouble> m_tableUM;
-    CTable<CDouble> m_tablePS; //m_tablePS;
+    CTable<CDouble> m_tablePS;
     
-    CMatrix<CDouble> m_matrixCD; //m_matrixCD
+    CMatrix<CDouble> m_matrixCD;
     CMatrix<CDouble> m_matrixCF;
     CMatrix<CDouble> m_matrixCM;
     
@@ -91,8 +92,8 @@ public:
 
 //---files handler methods (read, write)---
     
-    bool ReadFromFile(FILE* file);
-    bool WriteToFile(FILE* file);
+    bool Store(CArchive& archive);
+    bool Load(CArchive& archive);
 };
 
 #endif /* MscnProblem_h */

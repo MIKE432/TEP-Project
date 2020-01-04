@@ -54,7 +54,6 @@ void CMscnProblem::Init() {
 }
 
 bool CMscnProblem::Randomize(CRandom& random) {
-
     
     m_tableSD.Randomize(random.SetRange(DEFAULT_MSCN_S_RANDOM_MIN_VALUE, DEFAULT_MSCN_S_RANDOM_MAX_VALUE));
     m_tableSF.Randomize(random.SetRange(DEFAULT_MSCN_S_RANDOM_MIN_VALUE, DEFAULT_MSCN_S_RANDOM_MAX_VALUE));
@@ -402,14 +401,118 @@ CTable<CRange> CMscnProblem::GetMinMaxSolutionTable() {
     return minMaxTable;
 }
 
-bool CMscnProblem::ReadFromFile(FILE *file) {
+bool CMscnProblem::Store(CArchive& archive) {
     
+    archive << 'D' << space_w << m_nSizeD << endln_w << endln_w;
+    archive << 'F' << space_w << m_nSizeF << endln_w << endln_w;
+    archive << 'M' << space_w << m_nSizeM << endln_w << endln_w;
+    archive << 'S' << space_w << m_nSizeS << endln_w << endln_w;
+
+    archive << 's' << 'd' << endln_w << endln_w;
+    m_tableSD.Store(archive);
     
+    archive << 's' << 'f' << endln_w << endln_w;
+    m_tableSF.Store(archive);
+
+    archive << 's' << 'm' << endln_w << endln_w;
+    m_tableSM.Store(archive);
+
+    archive << 's' << 's' << endln_w << endln_w;
+    m_tableSS.Store(archive);
+
+    archive << 'c' << 'd' << endln_w << endln_w;
+    m_matrixCD.Store(archive);
+
+    archive << 'c' << 'f' << endln_w << endln_w;
+    m_matrixCF.Store(archive);
+
+    archive << 'c' << 'm' << endln_w << endln_w;
+    m_matrixCM.Store(archive);
+
+    archive << 'u' << 'd' << endln_w << endln_w;
+    m_tableUD.Store(archive);
+
+    archive << 'u' << 'f' << endln_w << endln_w;
+    m_tableUF.Store(archive);
+
+    archive << 'u' << 'm' << endln_w << endln_w;
+    m_tableUM.Store(archive);
+
+    archive << 'p' << endln_w << endln_w;
+    m_tablePS.Store(archive);
+
+    archive << 'x' << 'd' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln_w << endln_w;
+    m_matrixMinMaxXD.Store(archive);
+
+    archive << 'x' << 'f' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln_w << endln_w;
+    m_matrixMinMaxXF.Store(archive);
+
+    archive << 'x' << 'm' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln_w << endln_w;
+    m_matrixMinMaxXM.Store(archive);
+ 
     return true;
 }
 
-bool CMscnProblem::WriteToFile(FILE *file) {
+bool CMscnProblem::Load(CArchive& archive) {
     
+    char ch;
+    archive >> ch >> space_r >> m_nSizeD >> endln_r >> endln_r;
+    if( ch!='D' )
+        ;
+    archive >> ch >> space_r >> m_nSizeF >> endln_r >> endln_r;
+    if( ch!='F' )
+        ;
+    archive >> ch >> space_r >> m_nSizeM >> endln_r >> endln_r;
+    if( ch!='M' )
+        ;
+    archive >> ch >> space_r >> m_nSizeS >> endln_r >> endln_r;
+    if( ch!='S' )
+        ;
+    
+    Init();
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_tableSD.Load(archive);
+        
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_tableSF.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_tableSM.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_tableSS.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_matrixCD.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_matrixCF.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_matrixCM.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_tableUD.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_tableUF.Load(archive);
+
+    archive >> ch >> ch >> endln_r >> endln_r;
+    m_tableUM.Load(archive);
+
+    archive >> ch >> endln_r >> endln_r;
+    m_tablePS.Load(archive);
+
+    archive >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> endln_r >> endln_r;
+    m_matrixMinMaxXD.Load(archive);
+
+    archive >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> endln_r >> endln_r;
+    m_matrixMinMaxXF.Load(archive);
+
+    archive >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> endln_r >> endln_r;
+    m_matrixMinMaxXM.Load(archive);
+
     
     return true;
 }

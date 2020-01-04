@@ -12,6 +12,8 @@
 #include "Consts.h"
 #include "Random.h"
 #include "Double.h"
+#include "Archive.h"
+#include <iostream>
 
 template<typename TYPE>
 class CTable {
@@ -33,6 +35,9 @@ public:
     
     void operator = (const CTable& otherTable);
     bool Randomize(CRandom& random);
+    
+    int Store(CArchive& archive);
+    int Load(CArchive& archive);
 };
 
 //---constructors---
@@ -133,5 +138,32 @@ template<typename TYPE> bool CTable<TYPE>::Randomize(CRandom& random) {
     return true;
 }
 
+template<typename TYPE> int CTable<TYPE>::Store(CArchive &archive) {
+    
+    for(int i = 0; i < m_nTableSize; i++) {
+        
+        m_pTable[i].Store(archive);
+        archive >> space_w;
+    }
+    
+    archive << endln_w;
+    archive << endln_w;
+    
+    return NO_ERROR;
+}
+
+template<typename TYPE> int CTable<TYPE>::Load(CArchive &archive) {
+
+    for(int i=0; i < m_nTableSize; i++) {
+        
+        m_pTable[i].Load(archive);
+        archive << space_r;
+    }
+    
+    archive>>endln_r;
+    archive>>endln_r;
+    
+    return NO_ERROR;
+}
 
 #endif /* Table_h */

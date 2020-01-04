@@ -31,7 +31,8 @@ double CDouble::Get() const {
 
 bool CDouble::Randomize(CRandom &random) {
     
-    m_dValue = random.Generate();
+    random >> m_dValue;
+    //m_dValue = random.Generate();
     return true;
 }
 
@@ -91,19 +92,6 @@ bool CDouble::operator > (double double1) {
     return m_dValue > double1;
 }
 
-bool CDouble::Parse(string s, string::size_type* pRead) {
-    
-    if(s == "")
-        return false;
-    
-    string::size_type sz;
-    m_dValue = stod(s, &sz);
-    if( pRead )
-        *pRead = sz;
-    
-    return sz > 0;
-}
-
 CDouble& CDouble::operator = (double double1) {
     
     m_dValue = double1;
@@ -126,6 +114,12 @@ bool CDouble::operator != (double double1) {
     return m_dValue != double1;
 }
 
-string CDouble::ToString() {
-    return to_string(m_dValue);
+void CDouble::Store(CArchive& archive) {
+    
+    archive << m_dValue;
+}
+
+void CDouble::Load(CArchive& archive) {
+
+    archive >> m_dValue;
 }

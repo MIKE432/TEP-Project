@@ -20,10 +20,20 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     
     CMscnProblem problem;
-    
-    CRandom random(10);
-    
+
+    {
+    CArchive archive("testfile2.txt", "w");
+    CRandom random(100);
     problem.Randomize(random);
-    
+    problem.Store(archive);
+    }
+    {
+    CArchive archive("testfile2.txt", "r");
+    problem.Load(archive);
+    }
+    {
+    CArchive archive("testfile3.txt", "w");
+    problem.Store(archive);
+    }
     return 0;
 }
