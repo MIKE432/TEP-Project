@@ -190,14 +190,13 @@ template<typename TYPE> int CMatrix<TYPE>::Store(CArchive &archive) {
         
         for(int y = 0; y < m_nSizeY; y++) {
             
-            m_ppMatrix[x][y].Store(archive);
-            archive >> space_w;
+            archive << m_ppMatrix[x][y] << space;
         }
         
-        archive << endln_w;
+        archive << endln;
     }
     
-    archive << endln_w;
+    archive << endln;
     return NO_ERROR;
 }
 
@@ -207,16 +206,28 @@ template<typename TYPE> int CMatrix<TYPE>::Load(CArchive &archive) {
         
         for(int y = 0; y < m_nSizeY; y++) {
             
-            m_ppMatrix[x][y].Load(archive);
-            archive << space_r;
+            archive >> m_ppMatrix[x][y] >> space;
         }
         
-        archive >> endln_r;
+        archive >> endln;
     }
     
-    archive >> endln_r;
+    archive >> endln;
     return NO_ERROR;
 }
 
+
+template <typename TYPE>
+inline CArchive& operator << (CArchive& archive, CMatrix<TYPE>& matrix) {
+    
+    matrix.Store(archive);
+    return archive;
+}
+template <typename TYPE>
+inline CArchive& operator >> (CArchive& archive, CMatrix<TYPE>& matrix) {
+    
+    matrix.Load(archive);
+    return archive;
+}
 
 #endif /* Matrix_hpp */

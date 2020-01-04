@@ -22,6 +22,7 @@ struct SSolution {
     CMatrix<CDouble> m_xm;
     
     SSolution(CMatrix<CDouble> xf, CMatrix<CDouble> xd, CMatrix<CDouble> xm);
+    
 };
 
 class CMscnProblem {
@@ -96,4 +97,15 @@ public:
     bool Load(CArchive& archive);
 };
 
+inline CArchive& operator >> (CArchive& archive, CMscnProblem& problem) {
+    
+    problem.Load(archive);
+    return archive;
+}
+
+inline CArchive& operator << (CArchive& archive, CMscnProblem& problem) {
+    
+    problem.Store(archive);
+    return archive;
+}
 #endif /* MscnProblem_h */

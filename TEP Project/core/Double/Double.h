@@ -51,4 +51,16 @@ public:
     bool operator != (double double1);    
 };
 
+inline CArchive& operator >> (CArchive& archive, CDouble& d) {
+    
+    d.Load(archive);
+    return archive;
+}
+
+inline CArchive& operator << (CArchive& archive, CDouble& d) {
+    
+    d.Store(archive);
+    return archive;
+}
+
 #endif /* Double_h */

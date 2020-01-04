@@ -17,23 +17,26 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
     
     CMscnProblem problem;
 
     {
-    CArchive archive("testfile2.txt", "w");
-    CRandom random(100);
-    problem.Randomize(random);
-    problem.Store(archive);
+        CRandom random(1);
+        problem.Randomize(random);
+
+        CArchive archive;
+        archive.Store("testfile2.txt");
+        archive << problem;
     }
     {
-    CArchive archive("testfile2.txt", "r");
-    problem.Load(archive);
+        CArchive archive;
+        archive.Load("testfile2.txt");
+        archive >> problem;
     }
     {
-    CArchive archive("testfile3.txt", "w");
-    problem.Store(archive);
+        CArchive archive;
+        archive.Store("testfile3.txt");
+        archive << problem;
     }
     return 0;
 }

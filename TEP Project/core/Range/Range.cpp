@@ -80,14 +80,14 @@ CRange& CRange::operator = (const CRange& otherCRange) {
 void CRange::Store(CArchive& archive) {
     
     m_dMin.Store(archive);
-    archive<<space_w;
+    archive<<space;
     m_dMax.Store(archive);
 }
 
 void CRange::Load(CArchive& archive) {
     
     m_dMin.Load(archive);
-    archive>>space_r;
+    archive>>space;
     m_dMax.Load(archive);
 }
 

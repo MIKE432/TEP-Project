@@ -143,11 +143,10 @@ template<typename TYPE> int CTable<TYPE>::Store(CArchive &archive) {
     for(int i = 0; i < m_nTableSize; i++) {
         
         m_pTable[i].Store(archive);
-        archive >> space_w;
+        archive >> space;
     }
     
-    archive << endln_w;
-    archive << endln_w;
+    archive << endln << endln;
     
     return NO_ERROR;
 }
@@ -157,13 +156,24 @@ template<typename TYPE> int CTable<TYPE>::Load(CArchive &archive) {
     for(int i=0; i < m_nTableSize; i++) {
         
         m_pTable[i].Load(archive);
-        archive << space_r;
+        archive << space;
     }
     
-    archive>>endln_r;
-    archive>>endln_r;
+    archive >> endln >> endln;
     
     return NO_ERROR;
 }
 
+template <typename TYPE>
+inline CArchive& operator << (CArchive& archive, CTable<TYPE>& table) {
+    
+    table.Store(archive);
+    return archive;
+}
+template <typename TYPE>
+inline CArchive& operator >> (CArchive& archive, CTable<TYPE>& table) {
+    
+    table.Load(archive);
+    return archive;
+}
 #endif /* Table_h */

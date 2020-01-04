@@ -30,17 +30,20 @@ using namespace std;
 class CArchive {
 private:
     FILE* m_fFile;
-    
+    bool m_bIsLoadable;
 public:
     CArchive();
-    CArchive(string fileName, string flags);
     ~CArchive();
     
+    bool Load(string strFileName);
+    bool Store(string strFileName);
+    
+    bool IsLoadable() {
+        
+        return m_bIsLoadable;
+    }
     FILE GetFile();
     int SetFile(string fileName);
-    
-    int Store(string line);
-    int Load();
     
     CArchive& operator << (CArchive& (* fn)(CArchive&));
     CArchive& operator << (char chValue);
@@ -51,25 +54,52 @@ public:
     CArchive& operator >> (int& nValue);
     CArchive& operator >> (double& dValue);
     
+    string ReadString( size_t len ) {
+        string str;
+        
+        while( len-- )
+            str += fgetc( m_fFile );
+        
+        return str;
+    }
 };
 
-inline CArchive& endln_r(CArchive& archive) {
-    char ch;
-    archive >> ch;
+inline CArchive& endln(CArchive& ar) {
+    
+    if(ar.IsLoadable()) {
+        char ch;
+        ar >> ch;
+    } else
+        ar<<'\n';
+    
+    return ar;
+}
+
+inline CArchive& space(CArchive& ar) {
+    
+    if(ar.IsLoadable()) {
+        char ch;
+        ar >> ch;
+    } else
+        ar<<' ';
+    
+    return ar;
+}
+
+struct ValidateText {
+    string str;
+};
+
+inline ValidateText Validate(string str) {
+    
+    return { str };
+}
+
+inline CArchive& operator >> (CArchive& archive, ValidateText vt) {
+    
+    string str = archive.ReadString( vt.str.length() );
+    //archive.SetError( 12323, "Invalid input %s. Expected %s", str.c_str(), vt.str.c_str() );
     return archive;
-}
-inline CArchive& endln_w(CArchive& ar) {
-    ar<<'\n';
-    return ar;
-}
-inline CArchive& space_r(CArchive& ar) {
-    char ch;
-    ar>>ch;
-    return ar;
-}
-inline CArchive& space_w(CArchive& ar) {
-    ar<<' ';
-    return ar;
 }
 
 #endif /* Archive_hpp */

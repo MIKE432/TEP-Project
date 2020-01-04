@@ -403,116 +403,53 @@ CTable<CRange> CMscnProblem::GetMinMaxSolutionTable() {
 
 bool CMscnProblem::Store(CArchive& archive) {
     
-    archive << 'D' << space_w << m_nSizeD << endln_w << endln_w;
-    archive << 'F' << space_w << m_nSizeF << endln_w << endln_w;
-    archive << 'M' << space_w << m_nSizeM << endln_w << endln_w;
-    archive << 'S' << space_w << m_nSizeS << endln_w << endln_w;
+    archive << 'D' << space << m_nSizeD << endln << endln;
+    archive << 'F' << space << m_nSizeF << endln << endln;
+    archive << 'M' << space << m_nSizeM << endln << endln;
+    archive << 'S' << space << m_nSizeS << endln << endln;
 
-    archive << 's' << 'd' << endln_w << endln_w;
-    m_tableSD.Store(archive);
-    
-    archive << 's' << 'f' << endln_w << endln_w;
-    m_tableSF.Store(archive);
-
-    archive << 's' << 'm' << endln_w << endln_w;
-    m_tableSM.Store(archive);
-
-    archive << 's' << 's' << endln_w << endln_w;
-    m_tableSS.Store(archive);
-
-    archive << 'c' << 'd' << endln_w << endln_w;
-    m_matrixCD.Store(archive);
-
-    archive << 'c' << 'f' << endln_w << endln_w;
-    m_matrixCF.Store(archive);
-
-    archive << 'c' << 'm' << endln_w << endln_w;
-    m_matrixCM.Store(archive);
-
-    archive << 'u' << 'd' << endln_w << endln_w;
-    m_tableUD.Store(archive);
-
-    archive << 'u' << 'f' << endln_w << endln_w;
-    m_tableUF.Store(archive);
-
-    archive << 'u' << 'm' << endln_w << endln_w;
-    m_tableUM.Store(archive);
-
-    archive << 'p' << endln_w << endln_w;
-    m_tablePS.Store(archive);
-
-    archive << 'x' << 'd' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln_w << endln_w;
-    m_matrixMinMaxXD.Store(archive);
-
-    archive << 'x' << 'f' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln_w << endln_w;
-    m_matrixMinMaxXF.Store(archive);
-
-    archive << 'x' << 'm' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln_w << endln_w;
-    m_matrixMinMaxXM.Store(archive);
+    archive << 's' << 'd' << endln << endln << m_tableSD;
+    archive << 's' << 'f' << endln << endln << m_tableSF;
+    archive << 's' << 'm' << endln << endln << m_tableSM;
+    archive << 's' << 's' << endln << endln << m_tableSS;
+    archive << 'c' << 'd' << endln << endln << m_matrixCD;
+    archive << 'c' << 'f' << endln << endln << m_matrixCF;
+    archive << 'c' << 'm' << endln << endln << m_matrixCM;
+    archive << 'u' << 'd' << endln << endln << m_tableUD;
+    archive << 'u' << 'f' << endln << endln << m_tableUF;
+    archive << 'u' << 'm' << endln << endln << m_tableUM;
+    archive << 'p' << endln << endln << m_tablePS;
+    archive << 'x' << 'd' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln << endln << m_matrixMinMaxXD;
+    //archive << "xdminmax" << endln << endln << m_matrixMinMaxXD;
+    archive << 'x' << 'f' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln << endln << m_matrixMinMaxXF;
+    archive << 'x' << 'm' << 'm' << 'i' << 'n' << 'm' << 'a' << 'x' << endln << endln << m_matrixMinMaxXM;
  
     return true;
 }
 
 bool CMscnProblem::Load(CArchive& archive) {
     
-    char ch;
-    archive >> ch >> space_r >> m_nSizeD >> endln_r >> endln_r;
-    if( ch!='D' )
-        ;
-    archive >> ch >> space_r >> m_nSizeF >> endln_r >> endln_r;
-    if( ch!='F' )
-        ;
-    archive >> ch >> space_r >> m_nSizeM >> endln_r >> endln_r;
-    if( ch!='M' )
-        ;
-    archive >> ch >> space_r >> m_nSizeS >> endln_r >> endln_r;
-    if( ch!='S' )
-        ;
+    archive >> Validate("D") >> space >> m_nSizeD >> endln >> endln;
+    archive >> Validate("F") >> space >> m_nSizeF >> endln >> endln;
+    archive >> Validate("M") >> space >> m_nSizeM >> endln >> endln;
+    archive >> Validate("S") >> space >> m_nSizeS >> endln >> endln;
     
     Init();
 
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_tableSD.Load(archive);
-        
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_tableSF.Load(archive);
+    archive >> Validate("sd") >> endln >> endln >> m_tableSD;
+    archive >> Validate("sf") >> endln >> endln >> m_tableSF;
+    archive >> Validate("sm") >> endln >> endln >> m_tableSM;
+    archive >> Validate("ss") >> endln >> endln >> m_tableSS;
+    archive >> Validate("cd") >> endln >> endln >> m_matrixCD;
+    archive >> Validate("cf") >> endln >> endln >> m_matrixCF;
+    archive >> Validate("cm") >> endln >> endln >> m_matrixCM;
+    archive >> Validate("ud") >> endln >> endln >> m_tableUD;
+    archive >> Validate("uf") >> endln >> endln >> m_tableUF;
+    archive >> Validate("um") >> endln >> endln >> m_tableUM;
+    archive >> Validate("p") >> endln >> endln >> m_tablePS;
+    archive >> Validate("xdminmax") >> endln >> endln >> m_matrixMinMaxXD;
+    archive >> Validate("xfminmax") >> endln >> endln >> m_matrixMinMaxXF;
+    archive >> Validate("xmminmax") >> endln >> endln >> m_matrixMinMaxXM;
 
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_tableSM.Load(archive);
-
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_tableSS.Load(archive);
-
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_matrixCD.Load(archive);
-
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_matrixCF.Load(archive);
-
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_matrixCM.Load(archive);
-
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_tableUD.Load(archive);
-
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_tableUF.Load(archive);
-
-    archive >> ch >> ch >> endln_r >> endln_r;
-    m_tableUM.Load(archive);
-
-    archive >> ch >> endln_r >> endln_r;
-    m_tablePS.Load(archive);
-
-    archive >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> endln_r >> endln_r;
-    m_matrixMinMaxXD.Load(archive);
-
-    archive >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> endln_r >> endln_r;
-    m_matrixMinMaxXF.Load(archive);
-
-    archive >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> ch >> endln_r >> endln_r;
-    m_matrixMinMaxXM.Load(archive);
-
-    
     return true;
 }
