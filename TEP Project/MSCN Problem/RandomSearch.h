@@ -15,6 +15,7 @@
 #include "Double.h"
 #include "Table.h"
 #include "Consts.h"
+#include "MscnSolution.h"
 
 class CRandomSearch {
 private:
@@ -23,13 +24,8 @@ private:
 public:
     CRandomSearch();
     CRandomSearch(CMscnProblem* problem);
-    
-    bool SetProblem(CMscnProblem* problem);
-    CMscnProblem GetProblem();
-    
-    CTable<CDouble> GenerateValidSolution(CRandom& random);
-    CTable<CDouble> GenerateSolution(CRandom& random);
-    CTable<CDouble> GetBestSolution(int maxIterationCount, CRandom &random);
+        
+    CSolution* GenerateValidSolution(CRandom& random);
 };
 
 #endif /* RandomSearch_hpp */

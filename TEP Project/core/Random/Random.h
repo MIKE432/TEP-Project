@@ -11,11 +11,16 @@
 
 #include <random>
 
+class CRange;
+
 class CRandom {
 private:
     std::random_device m_rd;
     std::default_random_engine m_dre;
     std::uniform_real_distribution<double> m_dist;
+    
+    double m_dFrom;
+    double m_dTo;
     
 public:
     CRandom();
@@ -23,6 +28,7 @@ public:
     
     void SetRange(std::uniform_real_distribution<double>& dist);
     
+    //CRandom& SetRange(CRange& range);
     CRandom& SetRange(double dFrom, double dTo );
     double Generate();
 

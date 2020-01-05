@@ -176,4 +176,15 @@ inline CArchive& operator >> (CArchive& archive, CTable<TYPE>& table) {
     table.Load(archive);
     return archive;
 }
+
+inline double* ConvertToSolutionTable(CTable<CDouble> tableToConvert) {
+    
+    double* pDoubleTable = new double[tableToConvert.GetSize()];
+    
+    for(int i = 0; i < tableToConvert.GetSize(); i++) {
+        pDoubleTable[i] = tableToConvert[i].Get();
+    }
+    
+    return pDoubleTable;
+}
 #endif /* Table_h */

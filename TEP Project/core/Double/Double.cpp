@@ -19,12 +19,17 @@ CDouble::CDouble(double num)
     
 }
 
+CDouble::CDouble(const CDouble& otherDouble)
+: m_dValue(otherDouble.m_dValue) {
+    
+}
+
 void CDouble::Set(double num) {
     
     m_dValue = num;
 }
 
-double CDouble::Get() const {
+double CDouble::Get() {
     
     return m_dValue;
 }
@@ -40,7 +45,7 @@ bool CDouble::Randomize(CRandom &random) {
 
 CDouble& CDouble::operator = (const CDouble& otherDouble) {
     
-    m_dValue = otherDouble.Get();
+    m_dValue = otherDouble.m_dValue;
     
     return *this;
 }

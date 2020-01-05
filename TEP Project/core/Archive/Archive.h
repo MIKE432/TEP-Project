@@ -42,11 +42,14 @@ public:
         
         return m_bIsLoadable;
     }
+    
     FILE GetFile();
     int SetFile(string fileName);
     
     CArchive& operator << (CArchive& (* fn)(CArchive&));
+    CArchive& operator << (const char* pchText);
     CArchive& operator << (char chValue);
+    CArchive& operator << (size_t sizeValue);
     CArchive& operator << (int nValue);
     CArchive& operator << (double dValue);
     CArchive& operator >> (CArchive& (* fn)(CArchive&));
@@ -61,6 +64,18 @@ public:
             str += fgetc( m_fFile );
         
         return str;
+    }
+    
+    bool IsValidText(const char* pch) {
+        
+        while(*pch!='\0') {
+            
+            if( *pch!=(char)fgetc(m_fFile))
+                return false;
+            ++pch;
+        }
+        
+        return true;
     }
 };
 
@@ -86,20 +101,22 @@ inline CArchive& space(CArchive& ar) {
     return ar;
 }
 
-struct ValidateText {
-    string str;
+struct ValidText {
+    const char* pchText;
 };
 
-inline ValidateText Validate(string str) {
+inline ValidText IsValidText(const char* pchText) {
     
-    return { str };
+    return { pchText };
 }
 
-inline CArchive& operator >> (CArchive& archive, ValidateText vt) {
+inline CArchive& operator >> (CArchive& archive, ValidText ct) {
     
-    string str = archive.ReadString( vt.str.length() );
+    if( !archive.IsValidText(ct.pchText) )
+        ;
     //archive.SetError( 12323, "Invalid input %s. Expected %s", str.c_str(), vt.str.c_str() );
     return archive;
 }
+
 
 #endif /* Archive_hpp */

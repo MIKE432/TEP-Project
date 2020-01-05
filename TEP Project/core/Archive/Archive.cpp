@@ -56,12 +56,24 @@ int CArchive::SetFile(string fileName) {
 }
 
 CArchive& CArchive::operator << ( CArchive& (* fn)(CArchive&) ) {
+    
     return fn( *this );
 }
 
+CArchive& CArchive::operator << (const char* pchText) {
+    
+    fwrite( pchText, strlen(pchText), 1, m_fFile );
+    return *this;
+}
 CArchive& CArchive::operator << ( char chValue ) {
     
     fprintf(m_fFile, "%c", chValue);
+    return *this;
+}
+
+CArchive& CArchive::operator << (size_t sizeValue) {
+    
+    fprintf(m_fFile, "%zu", sizeValue);
     return *this;
 }
 

@@ -23,9 +23,10 @@ private:
 public:
     CDouble();
     CDouble(double num);
+    CDouble(const CDouble& otherDouble);
     
     void Set(double num);
-    double Get() const;
+    double Get();
     
     bool Randomize(CRandom& random);
     

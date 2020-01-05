@@ -18,25 +18,36 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    CMscnProblem problem;
-
+    CRandom random;
+    int error = 0;
     {
-        CRandom random(1);
-        problem.Randomize(random);
-
-        CArchive archive;
-        archive.Store("testfile2.txt");
-        archive << problem;
+//        problem.GenerateInstance(200);
+//
+//        CArchive archive;
+//        archive.Store("testfile2.txt");
+//        archive << problem;
     }
+    CMscnProblem problem;
     {
         CArchive archive;
         archive.Load("testfile2.txt");
         archive >> problem;
     }
+
+    CRandomSearch randomSearch(&problem);
     {
-        CArchive archive;
-        archive.Store("testfile3.txt");
-        archive << problem;
+        CSolution* pSolution = randomSearch.GenerateValidSolution(random);
+        
+        if(pSolution != NULL) {
+            CArchive archive;
+            archive.Store("testSolution.txt");
+
+            archive << *pSolution;
+            
+            
+            delete pSolution;
+        }
     }
+    
     return 0;
 }

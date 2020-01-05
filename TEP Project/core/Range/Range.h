@@ -14,6 +14,8 @@
 #include "Random.h"
 #include "Double.h"
 
+class CRandom;
+
 class CRange {
 private:
     CDouble m_dMin;

@@ -29,17 +29,42 @@ private:
     
 public:
     CMatrix();
+    CMatrix(const CMatrix& otherMatrix);
     CMatrix(int sizeX, int dimY);
     ~CMatrix();
     
     bool set(const TYPE& element, int offsetX, int offsetY);
     bool Resize(int sizeX, int sizeY);
-    TYPE& get(int offsetX, int offsetY);
+    TYPE& get(int offsetX, int offsetY) const;
     CDouble sumInRowOrColumn(char flag, int rowOrColumnNumber);
     bool rowSumHigherThanZero(int row);
     double getXSize() { return m_nSizeX; }
     double getYSize() { return m_nSizeY; }
     TYPE* operator [] (int offsetX);
+    void operator = (const CMatrix& otherMatrix) {
+        
+        if(m_ppMatrix == NULL) {
+            for(int y = 0; y < m_nSizeY; y++)
+                delete[] m_ppMatrix[y];
+            
+            delete[] m_ppMatrix;
+        }
+        
+        m_nSizeX = otherMatrix.m_nSizeX;
+        m_nSizeY = otherMatrix.m_nSizeY;
+        
+        for(int i = 0; i < m_nSizeX; i++) {
+            
+            m_ppMatrix[i] = new TYPE[m_nSizeY];
+        }
+        
+        for(int x = 0; x < m_nSizeX; x++) {
+            for(int y = 0; y < m_nSizeY; y++) {
+                m_ppMatrix[x][y] = otherMatrix.get(x, y);
+            }
+        }
+        
+    }
     
     bool Randomize(CRandom& random);
     int Store(CArchive& archive);
@@ -48,7 +73,7 @@ public:
 
 //---constructors---
 template<typename TYPE> CMatrix<TYPE>::CMatrix()
-: m_nSizeX(DEFAULT_DIM_X), m_nSizeY(DEFAULT_DIM_Y) {
+:m_ppMatrix(NULL), m_nSizeX(DEFAULT_DIM_X), m_nSizeY(DEFAULT_DIM_Y) {
     
     m_ppMatrix = new TYPE*[m_nSizeX];
     
@@ -57,6 +82,24 @@ template<typename TYPE> CMatrix<TYPE>::CMatrix()
         m_ppMatrix[i] = new TYPE[m_nSizeY];
     }
 }
+
+template<typename TYPE> CMatrix<TYPE>::CMatrix(const CMatrix& otherMatrix)
+: m_ppMatrix(NULL), m_nSizeX(otherMatrix.m_nSizeX), m_nSizeY(otherMatrix.m_nSizeY) {
+    
+    m_ppMatrix = new TYPE*[m_nSizeX];
+    
+    for(int i = 0; i < m_nSizeX; i++) {
+        
+        m_ppMatrix[i] = new TYPE[m_nSizeY];
+    }
+    
+    for(int x = 0; x < m_nSizeX; x++) {
+        for(int y = 0; y < m_nSizeY; y++) {
+            m_ppMatrix[x][y] = otherMatrix.get(x, y);
+        }
+    }
+}
+
 
 template<typename TYPE> CMatrix<TYPE>::CMatrix(int sizeX, int sizeY)
 : m_ppMatrix(NULL), m_nSizeX(sizeX), m_nSizeY(sizeY) {
@@ -118,10 +161,7 @@ template<typename TYPE> bool CMatrix<TYPE>::set(const TYPE& element, int offsetX
     return true;
 }
 
-template<typename TYPE> TYPE& CMatrix<TYPE>::get(int offsetX, int offsetY) {
-    
-    if(offsetX > m_nSizeX || offsetY > m_nSizeY)
-        return NULL;
+template<typename TYPE> TYPE& CMatrix<TYPE>::get(int offsetX, int offsetY) const {
     
     return m_ppMatrix[offsetX][offsetY];
 }
@@ -142,7 +182,6 @@ template<typename TYPE> bool CMatrix<TYPE>::rowSumHigherThanZero(int row) {
     
     return false;
 }
-
 
 template<typename TYPE> CDouble CMatrix<TYPE>::sumInRowOrColumn(char flag, int rowOrColumnNumber) {
     
