@@ -19,12 +19,13 @@ CRandom::CRandom(int seed) {
     
     m_dre = std::default_random_engine(m_rd());
     m_dre.seed(seed);
-    SetRange(0.0, 100.0);
+    SetRange(DEFAULT_MIN_RANGE, DEFAULT_MAX_RANGE);
 }
 
 CRandom& CRandom::operator >> (double& dValue) {
     
     dValue = Generate();
+    
     return *this;
 }
 
@@ -44,6 +45,7 @@ CRandom& CRandom::SetRange(double dFrom, double dTo) {
 double CRandom::Generate() {
     
     std::uniform_real_distribution<double> dist(m_dFrom, m_dTo);
+    
     return dist(m_dre);
 }
 

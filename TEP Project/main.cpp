@@ -37,7 +37,8 @@ int main(int argc, const char * argv[]) {
     CRandomSearch randomSearch(&problem);
     {
         CSolution* pSolution = randomSearch.GenerateValidSolution(random, 10000000);
-        
+        int error;
+        problem.GetQuality(pSolution->GetBeginPtr(), problem.GetSolutionSize(), error);
         if(pSolution != NULL) {
             CArchive archive;
             archive.Store("testSolution1.txt");

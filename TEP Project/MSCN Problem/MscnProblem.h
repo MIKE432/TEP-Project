@@ -53,10 +53,10 @@ public:
     
 //---setters---
     
-    void SetSizeD(int dCount);
-    void SetSizeF(int fCount);
-    void SetSizeM(int mCount);
-    void SetSizeS(int sCount);
+    void SetSizeD(int sizeD);
+    void SetSizeF(int sizeF);
+    void SetSizeM(int sizeM);
+    void SetSizeS(int sizeS);
     
     void SetInSD(CDouble value, int offset);
     void SetInSF(CDouble value, int offset);

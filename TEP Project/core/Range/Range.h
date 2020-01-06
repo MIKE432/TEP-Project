@@ -44,12 +44,14 @@ public:
 inline CArchive& operator >> (CArchive& archive, CRange& range) {
     
     range.Load(archive);
+    
     return archive;
 }
 
 inline CArchive& operator << (CArchive& archive, CRange& range) {
     
     range.Store(archive);
+    
     return archive;
 }
 

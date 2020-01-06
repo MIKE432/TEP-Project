@@ -71,7 +71,9 @@ template<typename TYPE> CMatrix<TYPE>::CMatrix(const CMatrix& otherMatrix)
     }
     
     for(int x = 0; x < m_nSizeX; x++) {
+        
         for(int y = 0; y < m_nSizeY; y++) {
+            
             m_ppMatrix[x][y] = otherMatrix.get(x, y);
         }
     }
@@ -94,6 +96,7 @@ template<typename TYPE> CMatrix<TYPE>::~CMatrix() {
     if(m_ppMatrix != NULL) {
         
         for(int i = 0; i < m_nSizeX; i++) {
+            
             delete[] m_ppMatrix[i];
         }
         
@@ -108,7 +111,9 @@ template<typename TYPE> bool CMatrix<TYPE>::Resize(int sizeX, int sizeY) {
         return false;
     
     TYPE** ppNewMatrix = new TYPE*[ sizeX ];
+    
     for(int i = 0; i < sizeX; i++) {
+        
         ppNewMatrix[i] = new TYPE[ sizeY ];
     }
 
@@ -141,6 +146,7 @@ template<typename TYPE> bool CMatrix<TYPE>::set(const TYPE& element, int offsetX
 template<typename TYPE> void CMatrix<TYPE>::operator = (const CMatrix& otherMatrix) {
     
     if(m_ppMatrix == NULL) {
+        
         for(int y = 0; y < m_nSizeY; y++)
             delete[] m_ppMatrix[y];
         
@@ -156,7 +162,9 @@ template<typename TYPE> void CMatrix<TYPE>::operator = (const CMatrix& otherMatr
     }
     
     for(int x = 0; x < m_nSizeX; x++) {
+        
         for(int y = 0; y < m_nSizeY; y++) {
+            
             m_ppMatrix[x][y] = otherMatrix.get(x, y);
         }
     }

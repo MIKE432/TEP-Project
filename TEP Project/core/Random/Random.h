@@ -42,8 +42,8 @@ inline std::uniform_real_distribution<double> SetRange( double dFrom, double dTo
 inline CRandom& operator >> (CRandom& random, std::uniform_real_distribution<double> dist ) {
     
     random.SetRange( dist );
+    
     return random;
 }
-// random >> SetRange( 0.0, 1000.0 ) >> m
 
 #endif /* Random_h */

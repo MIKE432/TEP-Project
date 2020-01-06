@@ -50,9 +50,11 @@ bool CRange::Randomize(CRandom &random) {
     double d2 = random.Generate();
     
     if(d1 > d2) {
+        
         m_dMax = d1;
         m_dMin = d2;
     } else {
+        
         m_dMax = d2;
         m_dMin = d1;
     }
@@ -61,10 +63,9 @@ bool CRange::Randomize(CRandom &random) {
 }
 
 CDouble CRange::operator [] (int minOrMax) {
-    
-    if(minOrMax > 0 && minOrMax <= 1 ) {
+
+    if(minOrMax > 0 && minOrMax <= 1 )
         return (minOrMax == 0 ? m_dMin : m_dMax);
-    }
     
     return NULL;
 }
