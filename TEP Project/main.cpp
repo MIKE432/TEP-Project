@@ -19,7 +19,7 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     
     CRandom random;
-    int error = 0;
+    
     {
 //        problem.GenerateInstance(200);
 //
@@ -36,11 +36,11 @@ int main(int argc, const char * argv[]) {
 
     CRandomSearch randomSearch(&problem);
     {
-        CSolution* pSolution = randomSearch.GenerateValidSolution(random);
+        CSolution* pSolution = randomSearch.GenerateValidSolution(random, 10000000);
         
         if(pSolution != NULL) {
             CArchive archive;
-            archive.Store("testSolution.txt");
+            archive.Store("testSolution1.txt");
 
             archive << *pSolution;
             

@@ -58,5 +58,37 @@
 #define DEFAULT_MSCN_XM_RANDOM_MIN_VALUE 0
 #define DEFAULT_MSCN_XM_RANDOM_MAX_VALUE 50
 
+#define DEFAULT_MAX_ITERATE 10000
+
+#define MN_XD "xd"
+#define MN_XF "xf"
+#define MN_XM "xm"
+
+#define MN_D "d"
+#define MN_F "f"
+#define MN_M "m"
+#define MN_S "s"
+
+
+#define MN_SD "sd"
+#define MN_SF "sf"
+#define MN_SM "sm"
+#define MN_SS "ss"
+
+#define MN_UD "ud"
+#define MN_UF "uf"
+#define MN_UM "um"
+#define MN_PS "p"
+
+#define MN_CD "cd"
+#define MN_CF "cf"
+#define MN_CM "cm"
+
+#define MN_MINMAXXD "xdminmax"
+#define MN_MINMAXXF "xfminmax"
+#define MN_MINMAXXM "xmminmax"
+
+
+
 
 #endif /* Consts_h */

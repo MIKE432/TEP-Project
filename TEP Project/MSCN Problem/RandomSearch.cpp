@@ -18,14 +18,15 @@ CRandomSearch::CRandomSearch(CMscnProblem* problem)
     
 }
 
-CSolution* CRandomSearch::GenerateValidSolution(CRandom& random) {
+CSolution* CRandomSearch::GenerateValidSolution(CRandom& random, int maxIterate = DEFAULT_MAX_ITERATE) {
     
     size_t sizeSolution = m_pProblem->GetSolutionSize();
     CSolution* pSolution = new CSolution(sizeSolution, m_pProblem->GetSizeD(), m_pProblem->GetSizeF(), m_pProblem->GetSizeM(), m_pProblem->GetSizeS());
     
     bool isValid = false;
     int error = 0;
-    int nTrial = 100;
+    int nTrial = maxIterate;
+    
     while(nTrial-- && !isValid) {
         
         int i = 0;
@@ -34,16 +35,14 @@ CSolution* CRandomSearch::GenerateValidSolution(CRandom& random) {
         for(double* p = pSolution->GetBeginPtr(); p<pe; ++p, ++i) {
             
             CRange& range = m_pProblem->GetSolutionConstraint( i );
-            *p = random.SetRange(range.GetMin().Get(),range.GetMin().Get()).Generate();
+            *p = random.SetRange(range.GetMin().Get(), range.GetMax().Get()).Generate();
         }
         
         isValid = m_pProblem->ConstraintsSatisfied(pSolution->GetBeginPtr(), sizeSolution, error);
     }
     
-    if(isValid)
+    if(!isValid)
         return pSolution;
-    
-    
     
     delete pSolution;
     return NULL;

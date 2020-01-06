@@ -27,20 +27,12 @@ public:
     CMatrixHelper m_matrixXF;
     CMatrixHelper m_matrixXM;
     
-    double* GetEndPtr();
-    double* GetBeginPtr();
-
-    const char* MN_XD = "xd";
-    const char* MN_XF = "xf";
-    const char* MN_XM = "xm";
-    const char* MN_D = "d";
-    const char* MN_F = "f";
-    const char* MN_M = "m";
-    const char* MN_S = "s";
-    
     CSolution(size_t sizeSolution, size_t sizeD, size_t sizeF, size_t sizeM, size_t sizeS);
     CSolution(const CSolution& otherSolution);
     ~CSolution();
+    
+    double* GetEndPtr();
+    double* GetBeginPtr();
     
     int Store(CArchive& archive);
 };

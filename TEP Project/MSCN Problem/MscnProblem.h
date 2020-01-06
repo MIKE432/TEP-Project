@@ -24,29 +24,6 @@ private:
     int m_nSizeM;
     int m_nSizeS;
     
-    const char* MN_D = "d";
-    const char* MN_F = "f";
-    const char* MN_M = "m";
-    const char* MN_S = "s";
-    
-    const char* MN_SD = "sd";
-    const char* MN_SF = "sf";
-    const char* MN_SM = "sm";
-    const char* MN_SS = "ss";
-    
-    const char* MN_UD = "ud";
-    const char* MN_UF = "uf";
-    const char* MN_UM = "um";
-    const char* MN_PS = "p";
-    
-    const char* MN_CD = "cd";
-    const char* MN_CF = "cf";
-    const char* MN_CM = "cm";
-    
-    const char* MN_MINMAXXD = "xdminmax";
-    const char* MN_MINMAXXF = "xfminmax";
-    const char* MN_MINMAXXM = "xmminmax";
-    
     CTable<CDouble> m_tableSD;
     CTable<CDouble> m_tableSF;
     CTable<CDouble> m_tableSM;
@@ -73,7 +50,9 @@ public:
     CMscnProblem();
     
     void GenerateInstance(int nInstanceSeed);
+    
 //---setters---
+    
     void SetSizeD(int dCount);
     void SetSizeF(int fCount);
     void SetSizeM(int mCount);
@@ -93,10 +72,10 @@ public:
     void SetInMinMaxXM(CDouble value, int offsetX, int offsetY, int minOrMax);
     
 //---getters---
-    double GetKT(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm);
-    double GetKU(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm);
-    double GetP(CMatrix<CDouble>& xm);
-    CTable<CRange> GetMinMaxSolutionTable();
+    
+    double GetKT(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm);
+    double GetKU(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm);
+    double GetP(CMatrixHelper& xm);
     CRange& GetSolutionConstraint(int i);
     
     int GetSizeD() { return m_nSizeD; }
@@ -111,8 +90,6 @@ public:
     
     bool Randomize(CRandom& random);
     size_t GetSolutionSize();
-
-//---files handler methods (read, write)---
     
     bool Store(CArchive& archive);
     bool Load(CArchive& archive);

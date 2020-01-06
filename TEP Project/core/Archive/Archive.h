@@ -38,10 +38,7 @@ public:
     bool Load(string strFileName);
     bool Store(string strFileName);
     
-    bool IsLoadable() {
-        
-        return m_bIsLoadable;
-    }
+    bool IsLoadable() { return m_bIsLoadable; }
     
     FILE GetFile();
     int SetFile(string fileName);
@@ -57,51 +54,33 @@ public:
     CArchive& operator >> (int& nValue);
     CArchive& operator >> (double& dValue);
     
-    string ReadString( size_t len ) {
-        string str;
-        
-        while( len-- )
-            str += fgetc( m_fFile );
-        
-        return str;
-    }
-    
-    bool IsValidText(const char* pch) {
-        
-        while(*pch!='\0') {
-            
-            if( *pch!=(char)fgetc(m_fFile))
-                return false;
-            ++pch;
-        }
-        
-        return true;
-    }
+    bool IsValidText(const char* pch);
 };
 
-inline CArchive& endln(CArchive& ar) {
+inline CArchive& endln(CArchive& archive) {
     
-    if(ar.IsLoadable()) {
+    if(archive.IsLoadable()) {
         char ch;
-        ar >> ch;
+        archive >> ch;
     } else
-        ar<<'\n';
+        archive << '\n';
     
-    return ar;
+    return archive;
 }
 
-inline CArchive& space(CArchive& ar) {
+inline CArchive& space(CArchive& archive) {
     
-    if(ar.IsLoadable()) {
+    if(archive.IsLoadable()) {
         char ch;
-        ar >> ch;
+        archive >> ch;
     } else
-        ar<<' ';
+        archive << ' ';
     
-    return ar;
+    return archive;
 }
 
 struct ValidText {
+    
     const char* pchText;
 };
 
@@ -114,7 +93,7 @@ inline CArchive& operator >> (CArchive& archive, ValidText ct) {
     
     if( !archive.IsValidText(ct.pchText) )
         ;
-    //archive.SetError( 12323, "Invalid input %s. Expected %s", str.c_str(), vt.str.c_str() );
+    
     return archive;
 }
 

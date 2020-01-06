@@ -35,6 +35,18 @@ bool CArchive::Store(string strFileName) {
     return m_fFile!=NULL;
 }
 
+bool CArchive::IsValidText(const char* pch) {
+       
+   while(*pch!='\0') {
+       
+       if( *pch!=(char)fgetc(m_fFile))
+           return false;
+       ++pch;
+   }
+   
+   return true;
+}
+
 CArchive::~CArchive() {
     
     if(m_fFile != NULL)

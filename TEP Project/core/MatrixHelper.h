@@ -63,6 +63,17 @@ public:
         return sum;
     }
     
+    bool rowSumHigherThanZero(int row) {
+        
+        for(int i = 0; i < m_col; i++) {
+            
+            if(Get(row, i) > 0)
+                return true;
+        }
+        
+        return false;
+    }
+    
     int Store(CArchive& archive) {
         
         for(int x = 0; x < m_row; x++) {

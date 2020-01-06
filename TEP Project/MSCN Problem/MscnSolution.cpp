@@ -35,14 +35,17 @@ CSolution::~CSolution() {
 }
 
 double* CSolution::GetEndPtr() {
+    
     return m_pSolution + m_sizeSolution;
 }
 
 double* CSolution::GetBeginPtr() {
+    
     return m_pSolution;
 }
 
 int CSolution::Store(CArchive& archive) {
+    
     archive << MN_D << space << m_sizeD << endln << endln;
     archive << MN_F << space << m_sizeF << endln << endln;
     archive << MN_M << space << m_sizeM << endln << endln;

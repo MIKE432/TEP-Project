@@ -41,30 +41,7 @@ public:
     double getXSize() { return m_nSizeX; }
     double getYSize() { return m_nSizeY; }
     TYPE* operator [] (int offsetX);
-    void operator = (const CMatrix& otherMatrix) {
-        
-        if(m_ppMatrix == NULL) {
-            for(int y = 0; y < m_nSizeY; y++)
-                delete[] m_ppMatrix[y];
-            
-            delete[] m_ppMatrix;
-        }
-        
-        m_nSizeX = otherMatrix.m_nSizeX;
-        m_nSizeY = otherMatrix.m_nSizeY;
-        
-        for(int i = 0; i < m_nSizeX; i++) {
-            
-            m_ppMatrix[i] = new TYPE[m_nSizeY];
-        }
-        
-        for(int x = 0; x < m_nSizeX; x++) {
-            for(int y = 0; y < m_nSizeY; y++) {
-                m_ppMatrix[x][y] = otherMatrix.get(x, y);
-            }
-        }
-        
-    }
+    void operator = (const CMatrix& otherMatrix);
     
     bool Randomize(CRandom& random);
     int Store(CArchive& archive);
@@ -159,6 +136,30 @@ template<typename TYPE> bool CMatrix<TYPE>::set(const TYPE& element, int offsetX
     m_ppMatrix[offsetX][offsetY] = element;
     
     return true;
+}
+
+template<typename TYPE> void CMatrix<TYPE>::operator = (const CMatrix& otherMatrix) {
+    
+    if(m_ppMatrix == NULL) {
+        for(int y = 0; y < m_nSizeY; y++)
+            delete[] m_ppMatrix[y];
+        
+        delete[] m_ppMatrix;
+    }
+    
+    m_nSizeX = otherMatrix.m_nSizeX;
+    m_nSizeY = otherMatrix.m_nSizeY;
+    
+    for(int i = 0; i < m_nSizeX; i++) {
+        
+        m_ppMatrix[i] = new TYPE[m_nSizeY];
+    }
+    
+    for(int x = 0; x < m_nSizeX; x++) {
+        for(int y = 0; y < m_nSizeY; y++) {
+            m_ppMatrix[x][y] = otherMatrix.get(x, y);
+        }
+    }
 }
 
 template<typename TYPE> TYPE& CMatrix<TYPE>::get(int offsetX, int offsetY) const {

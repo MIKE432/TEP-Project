@@ -28,7 +28,6 @@ public:
     
     void SetRange(std::uniform_real_distribution<double>& dist);
     
-    //CRandom& SetRange(CRange& range);
     CRandom& SetRange(double dFrom, double dTo );
     double Generate();
 

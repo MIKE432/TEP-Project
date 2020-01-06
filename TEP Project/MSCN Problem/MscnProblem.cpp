@@ -52,6 +52,7 @@ void CMscnProblem::GenerateInstance(int nInstanceSeed) {
     CRandom random(nInstanceSeed);
     Randomize(random);
 }
+
 bool CMscnProblem::Randomize(CRandom& random) {
     
     m_tableSD.Randomize(random.SetRange(DEFAULT_MSCN_S_RANDOM_MIN_VALUE, DEFAULT_MSCN_S_RANDOM_MAX_VALUE));
@@ -79,44 +80,44 @@ void CMscnProblem::SetSizeD(int sizeD) {
     
     m_nSizeD = sizeD;
     
-    m_tableSD.Resize(sizeD);
-    m_matrixCD.Resize(sizeD, m_nSizeF);
-    m_tableUD.Resize(sizeD);
-    m_matrixMinMaxXD.Resize(sizeD, m_nSizeF);
+    m_tableSD.Resize(m_nSizeD);
+    m_matrixCD.Resize(m_nSizeD, m_nSizeF);
+    m_tableUD.Resize(m_nSizeD);
+    m_matrixMinMaxXD.Resize(m_nSizeD, m_nSizeF);
 }
 
 void CMscnProblem::SetSizeF(int sizeF) {
     
     m_nSizeF = sizeF;
     
-    m_tableSF.Resize(sizeF);
-    m_matrixCD.Resize(m_nSizeD, sizeF);
-    m_matrixCF.Resize(sizeF, m_nSizeM);
-    m_tableUF.Resize(sizeF);
-    m_matrixMinMaxXD.Resize(m_nSizeD, sizeF);
-    m_matrixMinMaxXF.Resize(sizeF, m_nSizeM);
+    m_tableSF.Resize(m_nSizeF);
+    m_matrixCD.Resize(m_nSizeD, m_nSizeF);
+    m_matrixCF.Resize(m_nSizeF, m_nSizeM);
+    m_tableUF.Resize(m_nSizeF);
+    m_matrixMinMaxXD.Resize(m_nSizeD, m_nSizeF);
+    m_matrixMinMaxXF.Resize(m_nSizeF, m_nSizeM);
 }
 
 void CMscnProblem::SetSizeM(int sizeM) {
     
     m_nSizeM = sizeM;
     
-    m_tableSM.Resize(sizeM);
-    m_matrixCF.Resize(m_nSizeF, sizeM);
-    m_matrixCM.Resize(sizeM, m_nSizeS);
-    m_tableUM.Resize(sizeM);
-    m_matrixMinMaxXF.Resize(m_nSizeF, sizeM);
-    m_matrixMinMaxXM.Resize(sizeM, m_nSizeS);
+    m_tableSM.Resize(m_nSizeM);
+    m_matrixCF.Resize(m_nSizeF, m_nSizeM);
+    m_matrixCM.Resize(m_nSizeM, m_nSizeS);
+    m_tableUM.Resize(m_nSizeM);
+    m_matrixMinMaxXF.Resize(m_nSizeF, m_nSizeM);
+    m_matrixMinMaxXM.Resize(m_nSizeM, m_nSizeS);
 }
 
 void CMscnProblem::SetSizeS(int sizeS) {
     
     m_nSizeS = sizeS;
     
-    m_tableSS.Resize(sizeS);
-    m_matrixCM.Resize(m_nSizeM, sizeS);
-    m_tablePS.Resize(sizeS);
-    m_matrixMinMaxXM.Resize(m_nSizeM, sizeS);
+    m_tableSS.Resize(m_nSizeS);
+    m_matrixCM.Resize(m_nSizeM, m_nSizeS);
+    m_tablePS.Resize(m_nSizeS);
+    m_matrixMinMaxXM.Resize(m_nSizeM, m_nSizeS);
 }
 
 void CMscnProblem::SetInSD(CDouble value, int offset) {
@@ -174,7 +175,7 @@ void CMscnProblem::SetInMinMaxXM(CDouble value, int offsetX, int offsetY, int mi
     m_matrixMinMaxXM[offsetX][offsetY][minOrMax] = value;
 }
 
-double CMscnProblem::GetP(CMatrix<CDouble>& xm) {
+double CMscnProblem::GetP(CMatrixHelper& xm) {
     
     double result = 0;
     
@@ -182,13 +183,14 @@ double CMscnProblem::GetP(CMatrix<CDouble>& xm) {
         
         for(int s = 0; s < m_nSizeS; s++) {
             
-            result += m_tablePS[s].Get() * xm[m][s].Get();
+            result += m_tablePS[s].Get() * xm.Get(m, s);
         }
     }
+    
     return result;
 }
 
-double CMscnProblem::GetKU(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
+double CMscnProblem::GetKU(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm) {
     
     double result = 0;
     
@@ -196,7 +198,7 @@ double CMscnProblem::GetKU(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<C
         
         for(int f = 0; f < m_nSizeF; f++) {
             
-            result += m_matrixCD[d][f].Get() * xd[d][f].Get();
+            result += m_matrixCD[d][f].Get() * xd.Get(d, f);
         }
     }
     
@@ -204,7 +206,7 @@ double CMscnProblem::GetKU(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<C
         
         for(int m = 0; m < m_nSizeM; m++) {
             
-            result += m_matrixCF[f][m].Get() * xf[f][m].Get();
+            result += m_matrixCF[f][m].Get() * xf.Get(f, m);
         }
     }
     
@@ -212,14 +214,14 @@ double CMscnProblem::GetKU(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<C
         
         for(int s = 0; s < m_nSizeS; s++) {
             
-            result += m_matrixCM[m][s].Get() * xm[m][s].Get();
+            result += m_matrixCM[m][s].Get() * xm.Get(m, s);
         }
     }
     
     return result;
 }
 
-double CMscnProblem::GetKT(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<CDouble>& xm) {
+double CMscnProblem::GetKT(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm) {
     
     double result = 0;
     
@@ -245,9 +247,7 @@ double CMscnProblem::GetKT(CMatrix<CDouble>& xd, CMatrix<CDouble>& xf, CMatrix<C
 
 double CMscnProblem::GetQuality(double* pSolution, size_t sizeSolution, int& error) {
     
-    error = ValidateSolution(pSolution, sizeSolution);
-    
-    if(error != 0)
+    if((error = ValidateSolution(pSolution, sizeSolution)) != 0)
         return error;
     
     double* p = pSolution;
@@ -365,42 +365,6 @@ CRange& CMscnProblem::GetSolutionConstraint(int i) {
     }
     
     return m_matrixMinMaxXM[0][0];
-}
-
-CTable<CRange> CMscnProblem::GetMinMaxSolutionTable() {
-    
-    int solutionSize = GetSolutionSize();
-    int counter = 0;
-    CTable<CRange> minMaxTable(solutionSize);
-    
-    for(int d = 0; d < m_nSizeD; d++) {
-        
-        for(int f = 0; f < m_nSizeF; f++) {
-            
-            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXD[d][f][MIN_VALUE_MSCN_MIN_MAX_TABLE];
-            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXD[d][f][MAX_VALUE_MSCN_MIN_MAX_TABLE];
-        }
-    }
-    
-    for(int f = 0; f < m_nSizeF; f++) {
-        
-        for(int m = 0; m < m_nSizeM; m++) {
-            
-            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXF[f][m][MIN_VALUE_MSCN_MIN_MAX_TABLE];
-            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXF[f][m][MAX_VALUE_MSCN_MIN_MAX_TABLE];
-        }
-    }
-    
-    for(int m = 0; m < m_nSizeM; m++) {
-        
-        for(int s = 0; s < m_nSizeS; s++) {
-            
-            minMaxTable[counter][MIN_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXM[m][s][MIN_VALUE_MSCN_MIN_MAX_TABLE];
-            minMaxTable[counter++][MAX_VALUE_MSCN_MIN_MAX_TABLE] = m_matrixMinMaxXM[m][s][MAX_VALUE_MSCN_MIN_MAX_TABLE];
-        }
-    }
-    
-    return minMaxTable;
 }
 
 bool CMscnProblem::Store(CArchive& archive) {
