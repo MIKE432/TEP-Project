@@ -25,14 +25,14 @@ CSolution* CRandomSearch::GenerateValidSolution(CRandom& random, int maxIterate 
     
     bool isValid = false;
     int error = 0;
-    int nTrial = maxIterate;
+    int trial = maxIterate;
     
-    while(nTrial-- && !isValid) {
+    while(trial-- && !isValid) {
         
         int i = 0;
         double* pe = pSolution->GetEndPtr();
         
-        for(double* p = pSolution->GetBeginPtr(); p<pe; ++p, ++i) {
+        for(double* p = pSolution->GetBeginPtr(); p < pe; ++p, ++i) {
             
             CRange& range = m_pProblem->GetSolutionConstraint( i );
             *p = random.SetRange(range.GetMin().Get(), range.GetMax().Get()).Generate();

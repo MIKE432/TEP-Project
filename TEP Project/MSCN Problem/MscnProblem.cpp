@@ -226,18 +226,21 @@ double CMscnProblem::GetKT(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& 
     double result = 0;
     
     for(int d = 0; d < m_nSizeD; d++) {
+        
         if(xd.rowSumHigherThanZero(d))
             result += m_tableUD[d].Get();
     }
     
     
     for(int f = 0; f < m_nSizeF; f++) {
+        
         if(xf.rowSumHigherThanZero(f))
             result += m_tableUF[f].Get();
     }
     
     
     for(int m = 0; m < m_nSizeM; m++) {
+        
         if(xm.rowSumHigherThanZero(m))
             result += m_tableUM[m].Get();
     }
@@ -270,13 +273,13 @@ bool CMscnProblem::ConstraintsSatisfied(double* pSolution, size_t sizeSolution, 
     
     double* p = pSolution;
     
-    CMatrixHelper xd( p, m_nSizeD, m_nSizeF );
+    CMatrixHelper xd(p, m_nSizeD, m_nSizeF );
     
     p += m_nSizeD*m_nSizeF;
-    CMatrixHelper xf( p, m_nSizeF, m_nSizeM);
+    CMatrixHelper xf(p, m_nSizeF, m_nSizeM);
     
     p += m_nSizeF*m_nSizeM;
-    CMatrixHelper xm( p, m_nSizeM, m_nSizeS);
+    CMatrixHelper xm(p, m_nSizeM, m_nSizeS);
     
 
     for(int d = 0; d < m_nSizeD; d++) {
@@ -341,12 +344,12 @@ CRange& CMscnProblem::GetSolutionConstraint(int i) {
         int d = i/m_nSizeF;
         int f = i%m_nSizeF;
 
-        return m_matrixMinMaxXD[ d ][ f ];
+        return m_matrixMinMaxXD[d][f];
     }
     
     i -= m_nSizeD * m_nSizeF;
     
-    if( i < (m_nSizeF * m_nSizeM)) {
+    if(i < (m_nSizeF * m_nSizeM)) {
         
         int f = i / m_nSizeM;
         int m = i % m_nSizeM;
@@ -356,7 +359,7 @@ CRange& CMscnProblem::GetSolutionConstraint(int i) {
     
     i -= m_nSizeF * m_nSizeM;
     
-    if( i < (m_nSizeM * m_nSizeS)) {
+    if(i < (m_nSizeM * m_nSizeS)) {
         
         int m = i / m_nSizeS;
         int s = i % m_nSizeS;

@@ -28,8 +28,6 @@ public:
     ~CTable();
     
     bool Resize(int size);
-    bool set(TYPE element, int offset);
-    TYPE& get(int offset);
     int GetSize();
     TYPE& operator [] (int offset);
     
@@ -100,24 +98,6 @@ template<typename TYPE> bool CTable<TYPE>::Resize(int size) {
     return true;
 }
 
-template<typename TYPE> bool CTable<TYPE>::set(TYPE element, int offset) {
-    
-    if(offset > m_nTableSize || m_nTableSize != nullptr)
-        return false;
-    
-    m_pTable[offset] = element;
-    
-    return true;
-}
-
-template<typename TYPE> TYPE& CTable<TYPE>::get(int offset) {
-    
-    if(offset > m_nTableSize || m_nTableSize != nullptr)
-        return NULL;
-    
-    return m_pTable[offset];
-}
-
 template<typename TYPE> int CTable<TYPE>::GetSize() {
     
     return m_nTableSize;
@@ -153,7 +133,7 @@ template<typename TYPE> int CTable<TYPE>::Store(CArchive &archive) {
 
 template<typename TYPE> int CTable<TYPE>::Load(CArchive &archive) {
 
-    for(int i=0; i < m_nTableSize; i++) {
+    for(int i = 0; i < m_nTableSize; i++) {
         
         m_pTable[i].Load(archive);
         archive << space;

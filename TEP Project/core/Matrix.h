@@ -33,10 +33,7 @@ public:
     CMatrix(int sizeX, int dimY);
     ~CMatrix();
     
-    bool set(const TYPE& element, int offsetX, int offsetY);
     bool Resize(int sizeX, int sizeY);
-    TYPE& get(int offsetX, int offsetY) const;
-    CDouble sumInRowOrColumn(char flag, int rowOrColumnNumber);
     bool rowSumHigherThanZero(int row);
     double getXSize() { return m_nSizeX; }
     double getYSize() { return m_nSizeY; }
@@ -133,16 +130,6 @@ template<typename TYPE> bool CMatrix<TYPE>::Resize(int sizeX, int sizeY) {
     return true;
 }
 
-template<typename TYPE> bool CMatrix<TYPE>::set(const TYPE& element, int offsetX, int offsetY) {
-    
-    if(offsetX > m_nSizeX || offsetY > m_nSizeY)
-        return false;
-    
-    m_ppMatrix[offsetX][offsetY] = element;
-    
-    return true;
-}
-
 template<typename TYPE> void CMatrix<TYPE>::operator = (const CMatrix& otherMatrix) {
     
     if(m_ppMatrix == NULL) {
@@ -170,12 +157,6 @@ template<typename TYPE> void CMatrix<TYPE>::operator = (const CMatrix& otherMatr
     }
 }
 
-template<typename TYPE> TYPE& CMatrix<TYPE>::get(int offsetX, int offsetY) const {
-    
-    return m_ppMatrix[offsetX][offsetY];
-}
-
-
 template<typename TYPE> TYPE* CMatrix<TYPE>::operator [](int offsetX) {
     
     return m_ppMatrix[offsetX];
@@ -190,33 +171,6 @@ template<typename TYPE> bool CMatrix<TYPE>::rowSumHigherThanZero(int row) {
     }
     
     return false;
-}
-
-template<typename TYPE> CDouble CMatrix<TYPE>::sumInRowOrColumn(char flag, int rowOrColumnNumber) {
-    
-    CDouble result = 0;
-    
-    if(flag == 'c') {
-        
-        for(int i = 0; i < m_nSizeY; i++) {
-            
-            result += m_ppMatrix[rowOrColumnNumber][i];
-        }
-        
-        return result;
-        
-    } else if(flag == 'r') {
-        
-        for(int i = 0; i < m_nSizeX; i++) {
-            
-            result += m_ppMatrix[i][rowOrColumnNumber];
-        }
-        
-        return result;
-        
-    } else
-        return WRONG_ARGUMENT_ERROR;
-    
 }
 
 template<typename TYPE> bool CMatrix<TYPE>::Randomize(CRandom& random) {
@@ -245,6 +199,7 @@ template<typename TYPE> int CMatrix<TYPE>::Store(CArchive &archive) {
     }
     
     archive << endln;
+    
     return NO_ERROR;
 }
 
@@ -261,18 +216,17 @@ template<typename TYPE> int CMatrix<TYPE>::Load(CArchive &archive) {
     }
     
     archive >> endln;
+    
     return NO_ERROR;
 }
 
 
-template <typename TYPE>
-inline CArchive& operator << (CArchive& archive, CMatrix<TYPE>& matrix) {
+template <typename TYPE> inline CArchive& operator << (CArchive& archive, CMatrix<TYPE>& matrix) {
     
     matrix.Store(archive);
     return archive;
 }
-template <typename TYPE>
-inline CArchive& operator >> (CArchive& archive, CMatrix<TYPE>& matrix) {
+template <typename TYPE> inline CArchive& operator >> (CArchive& archive, CMatrix<TYPE>& matrix) {
     
     matrix.Load(archive);
     return archive;
