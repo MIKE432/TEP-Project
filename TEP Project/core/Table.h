@@ -68,6 +68,8 @@ template<typename TYPE> void CTable<TYPE>::operator = (const CTable<TYPE>& other
     if(m_pTable != NULL)
         delete[] m_pTable;
     
+    m_nTableSize = otherTable.m_nTableSize;
+    
     m_pTable = new TYPE[m_nTableSize];
     
     for(int i = 0; i < m_nTableSize; i++) {

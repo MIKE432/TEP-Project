@@ -190,7 +190,7 @@ double CMscnProblem::GetP(CMatrixHelper& xm) {
     return result;
 }
 
-double CMscnProblem::GetKU(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm) {
+double CMscnProblem::GetKT(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm) {
     
     double result = 0;
     
@@ -221,7 +221,7 @@ double CMscnProblem::GetKU(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& 
     return result;
 }
 
-double CMscnProblem::GetKT(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm) {
+double CMscnProblem::GetKU(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& xm) {
     
     double result = 0;
     
@@ -255,13 +255,13 @@ double CMscnProblem::GetQuality(double* pSolution, size_t sizeSolution, int& err
     
     double* p = pSolution;
     
-    CMatrixHelper xd( p, m_nSizeD, m_nSizeF );
+    CMatrixHelper xd(p, m_nSizeD, m_nSizeF);
     
-    p += m_nSizeD*m_nSizeF;
-    CMatrixHelper xf( p, m_nSizeF, m_nSizeM);
+    p += m_nSizeD * m_nSizeF;
+    CMatrixHelper xf(p, m_nSizeF, m_nSizeM);
     
-    p += m_nSizeF*m_nSizeM;
-    CMatrixHelper xm( p, m_nSizeM, m_nSizeS);
+    p += m_nSizeF * m_nSizeM;
+    CMatrixHelper xm(p, m_nSizeM, m_nSizeS);
     
     return (GetP(xd) - GetKT(xd, xf, xm) - GetKU(xd, xf, xm));
 }
@@ -275,10 +275,10 @@ bool CMscnProblem::ConstraintsSatisfied(double* pSolution, size_t sizeSolution, 
     
     CMatrixHelper xd(p, m_nSizeD, m_nSizeF );
     
-    p += m_nSizeD*m_nSizeF;
+    p += m_nSizeD * m_nSizeF;
     CMatrixHelper xf(p, m_nSizeF, m_nSizeM);
     
-    p += m_nSizeF*m_nSizeM;
+    p += m_nSizeF * m_nSizeM;
     CMatrixHelper xm(p, m_nSizeM, m_nSizeS);
     
 

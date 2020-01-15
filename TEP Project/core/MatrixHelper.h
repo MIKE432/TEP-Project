@@ -36,7 +36,7 @@ public:
     
     double Get(size_t r, size_t c) {
         
-        return *(m_pData+(r* m_col + c));
+        return *(m_pData + ((r * m_col) + c));
     }
     
     double sumInRow(int col) {
@@ -91,6 +91,23 @@ public:
         return NO_ERROR;
     }
     
+    int Load(CArchive& archive) {
+        
+        for(int x = 0; x < m_row; x++) {
+            
+            for(int y = 0; y < m_col; y++) {
+                
+                archive << Get(x, y) << space;
+            }
+            
+            archive << endln;
+        }
+        
+        archive << endln;
+        
+        return NO_ERROR;
+    }
+    
 };
 
 inline CArchive& operator << (CArchive& archive, CMatrixHelper& matrix) {
@@ -98,5 +115,12 @@ inline CArchive& operator << (CArchive& archive, CMatrixHelper& matrix) {
     matrix.Store(archive);
     return archive;
 }
+
+//inline CArchive& operator >> (CArchive& archive, CMatrixHelper& matrix) {
+//    
+//    matrix.Load(archive);
+//    return archive;
+//}
+
 
 #endif /* MatrixHelper_h */

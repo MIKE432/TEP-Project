@@ -37,7 +37,7 @@ bool CArchive::Store(string strFileName) {
 
 bool CArchive::IsValidText(const char* pch) {
        
-   while(*pch!='\0') {
+   while(*pch != '\0') {
        
        if( *pch!=(char)fgetc(m_fFile))
            return false;
@@ -69,39 +69,52 @@ int CArchive::SetFile(string fileName) {
 
 CArchive& CArchive::operator << ( CArchive& (* fn)(CArchive&) ) {
     
-    return fn( *this );
+    return fn(*this);
 }
 
 CArchive& CArchive::operator << (const char* pchText) {
     
-    fwrite( pchText, strlen(pchText), 1, m_fFile );
+    fwrite(pchText, strlen(pchText), 1, m_fFile);
+    
     return *this;
 }
 CArchive& CArchive::operator << ( char chValue ) {
     
     fprintf(m_fFile, "%c", chValue);
+    
     return *this;
 }
 
 CArchive& CArchive::operator << (size_t sizeValue) {
     
     fprintf(m_fFile, "%zu", sizeValue);
+    
     return *this;
 }
+
+//CArchive& CArchive::operator >> (size_t sizeValue) {
+//    
+//    
+//    fscanf(m_fFile, "%zu", sizeValue);
+//    return *this;
+//}
 
 CArchive& CArchive::operator << ( int nValue ) {
     
     fprintf(m_fFile, "%d", nValue);
+    
     return *this;
 }
 
 CArchive& CArchive::operator << ( double dValue ) {
     
     fprintf(m_fFile, "%lf", dValue);
+    
     return *this;
 }
 
 CArchive& CArchive::operator >> ( CArchive& (* fn)(CArchive&) ) {
+    
     return fn( *this );
 }
 CArchive& CArchive::operator >> ( char& chValue ) {
@@ -113,11 +126,13 @@ CArchive& CArchive::operator >> ( char& chValue ) {
 CArchive& CArchive::operator >> ( int& nValue ) {
 
     fscanf(m_fFile,"%d", &nValue);
+    
     return *this;
 }
 
 CArchive& CArchive::operator >> ( double& dValue ) {
 
     fscanf(m_fFile,"%lf", &dValue);
+    
     return *this;
 }

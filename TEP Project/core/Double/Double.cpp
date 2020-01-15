@@ -37,7 +37,7 @@ double CDouble::Get() {
 bool CDouble::Randomize(CRandom &random) {
     
     random >> m_dValue;
-    //m_dValue = random.Generate();
+
     return true;
 }
 
@@ -104,18 +104,22 @@ CDouble& CDouble::operator = (double double1) {
 }
 
 bool CDouble::operator == (const CDouble& otherDouble) {
+    
        return m_dValue == otherDouble.m_dValue;
 }
 
 bool CDouble::operator == (double double1) {
+    
        return m_dValue == double1;
 }
 
 bool CDouble::operator != (const CDouble& otherDouble) {
+    
     return m_dValue != otherDouble.m_dValue;
 }
 
 bool CDouble::operator != (double double1) {
+    
     return m_dValue != double1;
 }
 

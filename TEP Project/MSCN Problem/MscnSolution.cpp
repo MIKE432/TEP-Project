@@ -17,10 +17,10 @@ CSolution::CSolution(size_t sizeSolution, size_t sizeD, size_t sizeF, size_t siz
     double* p = m_pSolution;
     m_matrixXD.Attach(p , m_sizeD, m_sizeF);
     
-    p += m_sizeD*m_sizeF;
+    p += m_sizeD * m_sizeF;
     m_matrixXF.Attach(p, m_sizeF, m_sizeM);
     
-    p += m_sizeF*m_sizeM;
+    p += m_sizeF * m_sizeM;
     m_matrixXM.Attach(p, m_sizeM, m_sizeS);
 }
 
@@ -44,8 +44,23 @@ double* CSolution::GetBeginPtr() {
     return m_pSolution;
 }
 
+void CSolution::PrepareToStore() {
+    double* p = m_pSolution;
+    
+    m_matrixXD.Attach(p, m_sizeD, m_sizeF);
+    
+    p += m_sizeD * m_sizeF;
+    m_matrixXF.Attach(p, m_sizeF, m_sizeM);
+    
+    p += m_sizeF * m_sizeM;
+    m_matrixXM.Attach(p, m_sizeM, m_sizeS);
+    
+    
+}
+
 int CSolution::Store(CArchive& archive) {
     
+    PrepareToStore();
     archive << MN_D << space << m_sizeD << endln << endln;
     archive << MN_F << space << m_sizeF << endln << endln;
     archive << MN_M << space << m_sizeM << endln << endln;
@@ -57,3 +72,17 @@ int CSolution::Store(CArchive& archive) {
     
     return NO_ERROR;
 }
+
+//int CSolution::Load(CArchive& archive) {
+//    
+//    archive >> IsValidText(MN_D) >> space >> m_sizeD >> endln >> endln;
+//    archive >> IsValidText(MN_F) >> space >> m_sizeF >> endln >> endln;
+//    archive >> IsValidText(MN_M) >> space >> m_sizeM >> endln >> endln;
+//    archive >> IsValidText(MN_S) >> space >> m_sizeS >> endln >> endln;
+//    
+//    archive >> IsValidText(MN_XD) >> endln >> endln >> m_matrixXD;
+//    archive >> IsValidText(MN_XF) >> endln >> endln >> m_matrixXF;
+//    archive >> IsValidText(MN_XM) >> endln >> endln >> m_matrixXM;
+//    
+//    return NO_ERROR;
+//}

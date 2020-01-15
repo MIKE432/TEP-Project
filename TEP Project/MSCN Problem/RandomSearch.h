@@ -26,6 +26,7 @@ public:
     CRandomSearch(CMscnProblem* problem);
         
     CSolution* GenerateValidSolution(CRandom& random, int maxIterate);
+    CSolution* GenerateSolution(CRandom& random);
 };
 
 #endif /* RandomSearch_hpp */

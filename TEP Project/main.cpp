@@ -12,6 +12,7 @@
 #include "MSCN Problem/MscnProblem.h"
 #include "Double.h"
 #include "RandomSearch.h"
+#include "DiffEvol.h"
 #include <random>
 
 using namespace std;
@@ -29,22 +30,35 @@ int main(int argc, const char * argv[]) {
     }
     CMscnProblem problem;
     {
+
         CArchive archive;
-        archive.Load("testfile2.txt");
+        archive.Load("testfile.txt");
         archive >> problem;
+        
+        
     }
 
     CRandomSearch randomSearch(&problem);
     {
-        CSolution* pSolution = randomSearch.GenerateValidSolution(random, 10000000);
+        CArchive archive;
+        double* solution = new double[3];
+        solution[0] = 1;
+        solution[1] = 1;
+        solution[2] = 1;
+        CDiffEvol diffEvol = CDiffEvol(&problem, 200);
+        
+        CSolution* pSolution = diffEvol.GetBestSolution(random, randomSearch);
         int error;
-        problem.GetQuality(pSolution->GetBeginPtr(), problem.GetSolutionSize(), error);
+        CSolution* pSolution1 = randomSearch.GenerateValidSolution(random, 1000);
+        
+        
+        cout << problem.GetQuality(pSolution->GetBeginPtr(), problem.GetSolutionSize(), error);
         if(pSolution != NULL) {
+            
             CArchive archive;
-            archive.Store("testSolution1.txt");
+            archive.Store("testSolution11.txt");
 
             archive << *pSolution;
-            
             
             delete pSolution;
         }

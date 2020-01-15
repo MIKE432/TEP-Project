@@ -14,6 +14,8 @@
 #include "Archive.h"
 
 class CSolution {
+private:
+    void PrepareToStore();
 public:
     double* m_pSolution;
     size_t m_sizeSolution;
@@ -42,4 +44,5 @@ inline CArchive& operator << (CArchive& archive, CSolution& solution) {
     solution.Store(archive);
     return archive;
 }
+
 #endif /* MscnSolution_hpp */

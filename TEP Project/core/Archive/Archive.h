@@ -15,22 +15,11 @@
 
 using namespace std;
 
-//class WC {
-//public:
-//    static WC CRLF( '\n' );
-//    static WC SP( ' ' );
-//
-//    char m_ch;
-//    WC( char ch )
-//    : m_ch( ch ) {
-//
-//    }
-//};
-
 class CArchive {
 private:
     FILE* m_fFile;
     bool m_bIsLoadable;
+    
 public:
     CArchive();
     ~CArchive();
@@ -47,6 +36,7 @@ public:
     CArchive& operator << (const char* pchText);
     CArchive& operator << (char chValue);
     CArchive& operator << (size_t sizeValue);
+//    CArchive& operator >> (size_t sizeValue);
     CArchive& operator << (int nValue);
     CArchive& operator << (double dValue);
     CArchive& operator >> (CArchive& (* fn)(CArchive&));
