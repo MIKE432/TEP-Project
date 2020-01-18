@@ -15,10 +15,9 @@
 
 using namespace std;
 
-
-
 CMscnProblem::CMscnProblem()
-: m_nSizeD( DEFAULT_MSCN_PROBLEM_D_COUNT )
+: CProblem()
+, m_nSizeD( DEFAULT_MSCN_PROBLEM_D_COUNT )
 , m_nSizeF( DEFAULT_MSCN_PROBLEM_F_COUNT )
 , m_nSizeM( DEFAULT_MSCN_PROBLEM_M_COUNT )
 , m_nSizeS( DEFAULT_MSCN_PROBLEM_S_COUNT ) {
@@ -27,6 +26,12 @@ CMscnProblem::CMscnProblem()
 }
 
 void CMscnProblem::Init() {
+    
+    m_tableSizes = CTable<size_t>(4);
+    m_tableSizes[0] = m_nSizeD;
+    m_tableSizes[1] = m_nSizeF;
+    m_tableSizes[2] = m_nSizeM;
+    m_tableSizes[3] = m_nSizeS;
     
     m_tableSD.Resize(m_nSizeD);
     m_tableSF.Resize(m_nSizeF);

@@ -18,7 +18,7 @@ bool CDiffEvol::InitPopulation(CRandom& random, CRandomSearch& randomSearch, int
         if(m_tablePSolutions[i] != NULL)
             delete m_tablePSolutions[i];
         
-        m_tablePSolutions[i] = randomSearch.GenerateSolution(random);
+        m_tablePSolutions[i] = randomSearch.GetSolution(random);
     }
     
     return true;
@@ -51,12 +51,13 @@ bool CDiffEvol::AreIndividualsDifferent(CSolution* ind, CSolution* baseInd, CSol
     return similarity != (ind->m_sizeSolution);
 }
 
-CDiffEvol::CDiffEvol() {
+CDiffEvol::CDiffEvol()
+: COptimizer(NULL), m_pProblem(NULL) {
     
 }
 
-CDiffEvol::CDiffEvol(CMscnProblem* problem)
-:m_pProblem(problem) {
+CDiffEvol::CDiffEvol(CProblem* problem, CRandomSearch* randomSearch)
+:m_pProblem(problem), COptimizer(problem), m_RandomSearch(randomSearch) {
     
     m_tablePSolutions = CTable<CSolution*>(DEFAULT_POPULATION_LENGTH);
     
@@ -66,8 +67,8 @@ CDiffEvol::CDiffEvol(CMscnProblem* problem)
     
 }
 
-CDiffEvol::CDiffEvol(CMscnProblem* problem, int tableSolutionSize)
-: m_pProblem(problem) {
+CDiffEvol::CDiffEvol(CProblem* problem, CRandomSearch* randomSearch, int tableSolutionSize)
+: COptimizer(problem), m_pProblem(problem), m_RandomSearch(randomSearch) {
     
     m_tablePSolutions = CTable<CSolution*>(tableSolutionSize);
     
@@ -80,9 +81,9 @@ CDiffEvol::~CDiffEvol() {
     
 }
 
-void CDiffEvol::CorrectGenotype(CRandom& random, CRandomSearch& randomSearch) {
+void CDiffEvol::CorrectGenotype(CRandom& random) {
     
-    InitPopulation(random, randomSearch, DEFAULT_POPULATION_LENGTH);
+    InitPopulation(random, *m_RandomSearch, DEFAULT_POPULATION_LENGTH);
     
     CSolution* pInd = NULL;
     CSolution* pBaseInd = NULL;
@@ -104,7 +105,7 @@ void CDiffEvol::CorrectGenotype(CRandom& random, CRandomSearch& randomSearch) {
             
             if(AreIndividualsDifferent(pInd, pBaseInd, pAddInd0, pAddInd1)) {
                 
-                pNewInd = new CSolution(m_pProblem->GetSolutionSize(), m_pProblem->GetSizeD(), m_pProblem->GetSizeF(), m_pProblem->GetSizeM(), m_pProblem->GetSizeS());
+                pNewInd = new CSolution(m_pProblem->GetSolutionSize(), m_pProblem->GetSizes()[0], m_pProblem->GetSizes()[1], m_pProblem->GetSizes()[2], m_pProblem->GetSizes()[3]);
                 
                 for(int genOffset = 0; genOffset < pInd->m_sizeSolution; genOffset++) {
                     
@@ -141,13 +142,13 @@ void CDiffEvol::CorrectGenotype(CRandom& random, CRandomSearch& randomSearch) {
     }
 }
 
-CSolution* CDiffEvol::GetBestSolution(CRandom& random, CRandomSearch& randomSearch)  {
+CSolution* CDiffEvol::GetSolution(CRandom& random)  {
     
-    CorrectGenotype(random, randomSearch);
-    CSolution* bestSolution = m_tablePSolutions[0];
+    CorrectGenotype(random);
+    CSolution* bestSolution = m_tablePSolutions[ZERO];
     
-    int error = 0;
-    double dCurrentValue = 0.0;
+    int error = ZERO;
+    double dCurrentValue = ZERO;
     double dBestValue = m_pProblem->ConstraintsSatisfied(bestSolution->GetBeginPtr(), bestSolution->m_sizeSolution, error);
 
     for(int i = 1; i < m_tablePSolutions.GetSize(); i++) {

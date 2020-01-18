@@ -13,14 +13,20 @@
 #include "Double.h"
 #include "RandomSearch.h"
 #include "DiffEvol.h"
+#include "Optimizer.h"
+#include "Problem.h"
+#include "Timer.h"
 #include <random>
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    CRandom random;
+    CTimer timer;
+    timer.Start();
     
+    CRandom random;
+
     {
 //        problem.GenerateInstance(200);
 //
@@ -28,41 +34,46 @@ int main(int argc, const char * argv[]) {
 //        archive.Store("testfile2.txt");
 //        archive << problem;
     }
+    
     CMscnProblem problem;
     {
 
         CArchive archive;
         archive.Load("testfile.txt");
         archive >> problem;
-        
-        
-    }
 
+
+    }
+    
+    cout << "middle seconds: " << timer.GetSeconds() << endl;
     CRandomSearch randomSearch(&problem);
     {
         CArchive archive;
+        randomSearch.GenerateSolution(random);
         double* solution = new double[3];
         solution[0] = 1;
         solution[1] = 1;
         solution[2] = 1;
-        CDiffEvol diffEvol = CDiffEvol(&problem, 200);
-        
-        CSolution* pSolution = diffEvol.GetBestSolution(random, randomSearch);
+        CDiffEvol diffEvol = CDiffEvol(&problem, &randomSearch, 200);
+
+        CSolution* pSolution = diffEvol.GetSolution(random);
         int error;
-        CSolution* pSolution1 = randomSearch.GenerateValidSolution(random, 1000);
-        
-        
+
+
         cout << problem.GetQuality(pSolution->GetBeginPtr(), problem.GetSolutionSize(), error);
         if(pSolution != NULL) {
-            
+
             CArchive archive;
             archive.Store("testSolution11.txt");
 
             archive << *pSolution;
-            
+
             delete pSolution;
         }
     }
+    
+    timer.Stop();
+    cout << "end seconds: " << timer.GetSeconds() << endl;
     
     return 0;
 }

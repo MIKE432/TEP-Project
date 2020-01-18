@@ -15,6 +15,7 @@
 		270C6C7823BFD24100E05B79 /* RandomSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C7623BFD24100E05B79 /* RandomSearch.cpp */; };
 		270C6C7C23C28A4400E05B79 /* MscnSolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C7A23C28A4400E05B79 /* MscnSolution.cpp */; };
 		270C6C7F23CC85DF00E05B79 /* DiffEvol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C7D23CC85DF00E05B79 /* DiffEvol.cpp */; };
+		270C6C9823D1A8FD00E05B79 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 270C6C9623D1A8FD00E05B79 /* Timer.cpp */; };
 		271825C623B6ACEE0030A4EF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 271825C523B6ACEE0030A4EF /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,10 @@
 		270C6C7B23C28A4400E05B79 /* MscnSolution.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MscnSolution.h; sourceTree = "<group>"; };
 		270C6C7D23CC85DF00E05B79 /* DiffEvol.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DiffEvol.cpp; sourceTree = "<group>"; };
 		270C6C7E23CC85DF00E05B79 /* DiffEvol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiffEvol.h; sourceTree = "<group>"; };
+		270C6C9423CF13E500E05B79 /* Optimizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Optimizer.h; sourceTree = "<group>"; };
+		270C6C9523CF14DC00E05B79 /* Problem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Problem.h; sourceTree = "<group>"; };
+		270C6C9623D1A8FD00E05B79 /* Timer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
+		270C6C9723D1A8FD00E05B79 /* Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		271825C223B6ACEE0030A4EF /* TEP Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "TEP Project"; sourceTree = BUILT_PRODUCTS_DIR; };
 		271825C523B6ACEE0030A4EF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		271825CF23B6AD430030A4EF /* Matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
@@ -70,6 +75,7 @@
 		270C6C6023B8D25500E05B79 /* MSCN Problem */ = {
 			isa = PBXGroup;
 			children = (
+				270C6C9323CF134900E05B79 /* Interfaces */,
 				270C6C6123B8D28400E05B79 /* MscnProblem.h */,
 				270C6C6223BA040200E05B79 /* MscnProblem.cpp */,
 				270C6C7723BFD24100E05B79 /* RandomSearch.h */,
@@ -78,6 +84,8 @@
 				270C6C7B23C28A4400E05B79 /* MscnSolution.h */,
 				270C6C7D23CC85DF00E05B79 /* DiffEvol.cpp */,
 				270C6C7E23CC85DF00E05B79 /* DiffEvol.h */,
+				270C6C9623D1A8FD00E05B79 /* Timer.cpp */,
+				270C6C9723D1A8FD00E05B79 /* Timer.h */,
 			);
 			path = "MSCN Problem";
 			sourceTree = "<group>";
@@ -124,6 +132,15 @@
 				270C6C7423BCD61D00E05B79 /* Archive.h */,
 			);
 			path = Archive;
+			sourceTree = "<group>";
+		};
+		270C6C9323CF134900E05B79 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				270C6C9423CF13E500E05B79 /* Optimizer.h */,
+				270C6C9523CF14DC00E05B79 /* Problem.h */,
+			);
+			path = Interfaces;
 			sourceTree = "<group>";
 		};
 		271825B923B6ACEE0030A4EF = {
@@ -228,6 +245,7 @@
 				270C6C6923BB4A7E00E05B79 /* Random.cpp in Sources */,
 				270C6C6323BA040200E05B79 /* MscnProblem.cpp in Sources */,
 				270C6C7823BFD24100E05B79 /* RandomSearch.cpp in Sources */,
+				270C6C9823D1A8FD00E05B79 /* Timer.cpp in Sources */,
 				270C6C7523BCD61D00E05B79 /* Archive.cpp in Sources */,
 				270C6C7123BCB71000E05B79 /* Double.cpp in Sources */,
 				271825C623B6ACEE0030A4EF /* main.cpp in Sources */,

@@ -16,16 +16,18 @@
 #include "Table.h"
 #include "Consts.h"
 #include "MscnSolution.h"
+#include "Problem.h"
+#include "Optimizer.h"
 
-class CRandomSearch {
+class CRandomSearch: public COptimizer {
 private:
-    CMscnProblem* m_pProblem;
+    CProblem* m_pProblem;
     
 public:
     CRandomSearch();
-    CRandomSearch(CMscnProblem* problem);
+    CRandomSearch(CProblem* problem);
         
-    CSolution* GenerateValidSolution(CRandom& random, int maxIterate);
+    CSolution* GetSolution(CRandom& random);
     CSolution* GenerateSolution(CRandom& random);
 };
 

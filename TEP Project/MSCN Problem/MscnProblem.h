@@ -16,8 +16,9 @@
 #include "Range.h"
 #include "Archive.h"
 #include "MatrixHelper.h"
+#include "Problem.h"
 
-class CMscnProblem {
+class CMscnProblem: public CProblem {
 private:
     int m_nSizeD;
     int m_nSizeF;
@@ -45,6 +46,7 @@ private:
     void Init();
     
     int ValidateSolution(double* pSolution, size_t sizeSolution);
+    double FindBottleNeck();
     
 public:
     CMscnProblem();

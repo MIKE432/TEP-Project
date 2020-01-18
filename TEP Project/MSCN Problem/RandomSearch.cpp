@@ -9,20 +9,20 @@
 #include "RandomSearch.h"
 
 CRandomSearch::CRandomSearch()
-: m_pProblem(NULL) {
+: m_pProblem(NULL), COptimizer(NULL) {
     
 }
 
-CRandomSearch::CRandomSearch(CMscnProblem* problem)
-: m_pProblem(problem) {
+CRandomSearch::CRandomSearch(CProblem* problem)
+: m_pProblem(problem), COptimizer(problem) {
     
 }
 
-CSolution* CRandomSearch::GenerateSolution(CRandom& random) {
+CSolution* CRandomSearch::GetSolution(CRandom& random) {
 
 
     size_t sizeSolution = m_pProblem->GetSolutionSize();
-    CSolution* pSolution = new CSolution(sizeSolution, m_pProblem->GetSizeD(), m_pProblem->GetSizeF(), m_pProblem->GetSizeM(), m_pProblem->GetSizeS());
+    CSolution* pSolution = new CSolution(sizeSolution, m_pProblem->GetSizes()[0], m_pProblem->GetSizes()[1], m_pProblem->GetSizes()[2], m_pProblem->GetSizes()[3]);
 
     int i = 0;
     double* pe = pSolution->GetEndPtr();
@@ -38,14 +38,14 @@ CSolution* CRandomSearch::GenerateSolution(CRandom& random) {
 
 
 
-CSolution* CRandomSearch::GenerateValidSolution(CRandom& random, int maxIterate = DEFAULT_MAX_ITERATE) {
+CSolution* CRandomSearch::GenerateSolution(CRandom& random) {
     
     size_t sizeSolution = m_pProblem->GetSolutionSize();
-    CSolution* pSolution = new CSolution(sizeSolution, m_pProblem->GetSizeD(), m_pProblem->GetSizeF(), m_pProblem->GetSizeM(), m_pProblem->GetSizeS());
+    CSolution* pSolution = new CSolution(sizeSolution, m_pProblem->GetSizes()[0], m_pProblem->GetSizes()[1], m_pProblem->GetSizes()[2], m_pProblem->GetSizes()[3]);
     
     bool isValid = false;
     int error = 0;
-    int trial = maxIterate;
+    int trial = DEFAULT_MAX_ITERATE;
     
     while(trial-- && !isValid) {
         
@@ -65,5 +65,6 @@ CSolution* CRandomSearch::GenerateValidSolution(CRandom& random, int maxIterate 
         return pSolution;
     
     delete pSolution;
+    
     return NULL;
 }
