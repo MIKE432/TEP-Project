@@ -84,7 +84,7 @@ bool CMscnProblem::Randomize(CRandom& random) {
 void CMscnProblem::SetSizeD(int sizeD) {
     
     m_nSizeD = sizeD;
-    
+    m_tableSizes[0] = m_nSizeD;
     m_tableSD.Resize(m_nSizeD);
     m_matrixCD.Resize(m_nSizeD, m_nSizeF);
     m_tableUD.Resize(m_nSizeD);
@@ -94,7 +94,7 @@ void CMscnProblem::SetSizeD(int sizeD) {
 void CMscnProblem::SetSizeF(int sizeF) {
     
     m_nSizeF = sizeF;
-    
+    m_tableSizes[1] = m_nSizeF;
     m_tableSF.Resize(m_nSizeF);
     m_matrixCD.Resize(m_nSizeD, m_nSizeF);
     m_matrixCF.Resize(m_nSizeF, m_nSizeM);
@@ -106,7 +106,7 @@ void CMscnProblem::SetSizeF(int sizeF) {
 void CMscnProblem::SetSizeM(int sizeM) {
     
     m_nSizeM = sizeM;
-    
+    m_tableSizes[2] = m_nSizeM;
     m_tableSM.Resize(m_nSizeM);
     m_matrixCF.Resize(m_nSizeF, m_nSizeM);
     m_matrixCM.Resize(m_nSizeM, m_nSizeS);
@@ -118,7 +118,7 @@ void CMscnProblem::SetSizeM(int sizeM) {
 void CMscnProblem::SetSizeS(int sizeS) {
     
     m_nSizeS = sizeS;
-    
+    m_tableSizes[3] = m_nSizeS;
     m_tableSS.Resize(m_nSizeS);
     m_matrixCM.Resize(m_nSizeM, m_nSizeS);
     m_tablePS.Resize(m_nSizeS);
@@ -253,6 +253,28 @@ double CMscnProblem::GetKU(CMatrixHelper& xd, CMatrixHelper& xf, CMatrixHelper& 
     return result;
 }
 
+double CMscnProblem::GetBottleNeck() {
+    
+    double bottleNeck = DBL_MAX;
+    
+    double potentialBottleNeck = ZERO;
+    
+    if(bottleNeck > (potentialBottleNeck = SumTable(m_tableSD)))
+        bottleNeck = potentialBottleNeck;
+    
+    if(bottleNeck > (potentialBottleNeck = SumTable(m_tableSF)))
+        bottleNeck = potentialBottleNeck;
+    
+    if(bottleNeck > (potentialBottleNeck = SumTable(m_tableSM)))
+        bottleNeck = potentialBottleNeck;
+    
+    if(bottleNeck > (potentialBottleNeck = SumTable(m_tableSS)))
+        bottleNeck = potentialBottleNeck;
+        
+    
+    return bottleNeck;
+}
+
 double CMscnProblem::GetQuality(double* pSolution, size_t sizeSolution, int& error) {
     
     if((error = ValidateSolution(pSolution, sizeSolution)) != 0)
@@ -267,6 +289,10 @@ double CMscnProblem::GetQuality(double* pSolution, size_t sizeSolution, int& err
     
     p += m_nSizeF * m_nSizeM;
     CMatrixHelper xm(p, m_nSizeM, m_nSizeS);
+    
+    double bottleNeck = GetBottleNeck();
+    
+    
     
     return (GetP(xd) - GetKT(xd, xf, xm) - GetKU(xd, xf, xm));
 }

@@ -18,7 +18,7 @@ CRandomSearch::CRandomSearch(CProblem* problem)
     
 }
 
-CSolution* CRandomSearch::GetSolution(CRandom& random) {
+CSolution* CRandomSearch::GenerateSolution(CRandom& random) {
 
 
     size_t sizeSolution = m_pProblem->GetSolutionSize();
@@ -36,35 +36,65 @@ CSolution* CRandomSearch::GetSolution(CRandom& random) {
     return pSolution;
 }
 
+double MinDouble(double d1, double d2) {
+    if(d1 > d2)
+        return d2;
+    
+    return d1;
+}
 
-
-CSolution* CRandomSearch::GenerateSolution(CRandom& random) {
+CSolution* CRandomSearch::GetSolution(CRandom& random) {
     
     size_t sizeSolution = m_pProblem->GetSolutionSize();
     CSolution* pSolution = new CSolution(sizeSolution, m_pProblem->GetSizes()[0], m_pProblem->GetSizes()[1], m_pProblem->GetSizes()[2], m_pProblem->GetSizes()[3]);
-    
-    bool isValid = false;
-    int error = 0;
-    int trial = DEFAULT_MAX_ITERATE;
-    
-    while(trial-- && !isValid) {
         
-        int i = 0;
-        double* pe = pSolution->GetEndPtr();
+    double* p = pSolution->GetBeginPtr();
+    
+    CTable<CDouble> sd = ((CMscnProblem*)m_pProblem)->GetTableSD();
+    CTable<CDouble> sf = ((CMscnProblem*)m_pProblem)->GetTableSF();
+    CTable<CDouble> sm = ((CMscnProblem*)m_pProblem)->GetTableSM();
+    CTable<CDouble> ss = ((CMscnProblem*)m_pProblem)->GetTableSS();
+    
+    CMatrixHelper xd;
+    CMatrixHelper xf;
+    CMatrixHelper xm;
+    
+    xd.Attach(p, m_pProblem->GetSizes()[0], m_pProblem->GetSizes()[1]);
+    
+    for(int i = 0; i < m_pProblem->GetSizes()[0]; ++i) {
         
-        for(double* p = pSolution->GetBeginPtr(); p < pe; ++p, ++i) {
+        for(int j = 0; j < m_pProblem->GetSizes()[1]; j++, ++p) {
             
-            CRange& range = m_pProblem->GetSolutionConstraint( i );
-            *p = random.SetRange(range.GetMin().Get(), range.GetMax().Get()).Generate();
+            *p = random.SetRange(ZERO, sd[i].Get()).Generate();
+            sd[i] = sd[i] - *p;
         }
-        
-        isValid = m_pProblem->ConstraintsSatisfied(pSolution->GetBeginPtr(), sizeSolution, error);
     }
     
-    if(isValid)
-        return pSolution;
+    xf.Attach(p, m_pProblem->GetSizes()[1], m_pProblem->GetSizes()[2]);
     
-    delete pSolution;
+    for(int i = 0; i < m_pProblem->GetSizes()[1]; ++i) {
+        
+        for(int j = 0; j < m_pProblem->GetSizes()[2]; j++, ++p) {
+            
+            *p = random.SetRange(ZERO, sf[i].Get()).Generate();
+            sf[i] = sf[i] - *p;
+        }
+    }
     
-    return NULL;
+    xm.Attach(p, m_pProblem->GetSizes()[2], m_pProblem->GetSizes()[3]);
+    
+    for(int i = 0; i < m_pProblem->GetSizes()[2]; ++i) {
+        
+        for(int j = 0; j < m_pProblem->GetSizes()[3]; j++, ++p) {
+            
+            *p = random.SetRange(ZERO, MinDouble(sm[i].Get(), ss[j].Get())).Generate();
+            sm[i] = sm[i] - *p;
+            ss[j] = ss[j] - *p;
+        }
+    }
+    
+    
+    int error;
+    m_pProblem->ConstraintsSatisfied(pSolution->GetBeginPtr(), m_pProblem->GetSolutionSize(), error);
+    return pSolution;
 }

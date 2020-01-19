@@ -44,7 +44,7 @@ double* CSolution::GetBeginPtr() {
     return m_pSolution;
 }
 
-void CSolution::PrepareToStore() {
+void CSolution::FillMatrixes() {
     double* p = m_pSolution;
     
     m_matrixXD.Attach(p, m_sizeD, m_sizeF);
@@ -60,7 +60,8 @@ void CSolution::PrepareToStore() {
 
 int CSolution::Store(CArchive& archive) {
     
-    PrepareToStore();
+    FillMatrixes();
+    
     archive << MN_D << space << m_sizeD << endln << endln;
     archive << MN_F << space << m_sizeF << endln << endln;
     archive << MN_M << space << m_sizeM << endln << endln;

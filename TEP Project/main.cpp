@@ -49,7 +49,6 @@ int main(int argc, const char * argv[]) {
     CRandomSearch randomSearch(&problem);
     {
         CArchive archive;
-        randomSearch.GenerateSolution(random);
         double* solution = new double[3];
         solution[0] = 1;
         solution[1] = 1;
@@ -57,23 +56,38 @@ int main(int argc, const char * argv[]) {
         CDiffEvol diffEvol = CDiffEvol(&problem, &randomSearch, 200);
 
         CSolution* pSolution = diffEvol.GetSolution(random);
+        
         int error;
 
-
-        cout << problem.GetQuality(pSolution->GetBeginPtr(), problem.GetSolutionSize(), error);
+        cout << problem.GetQuality(pSolution->GetBeginPtr(), problem.GetSolutionSize(), error) << endl;
+        cout << problem.ConstraintsSatisfied(pSolution->GetBeginPtr(), problem.GetSolutionSize(), error);
         if(pSolution != NULL) {
 
             CArchive archive;
             archive.Store("testSolution11.txt");
 
             archive << *pSolution;
-
             delete pSolution;
         }
     }
     
     timer.Stop();
     cout << "end seconds: " << timer.GetSeconds() << endl;
+    
+    {
+        CArchive archive1;
+        CArchive archive2;
+        archive2.Store("testSolution1.txt");
+        CMscnProblem promlem1;
+        promlem1.Randomize(random);
+        CRandomSearch randomSearch1(&promlem1);
+        archive1.Load("testfile.txt");
+        archive1 >> promlem1;
+        CSolution* a = randomSearch1.GetSolution(random);
+
+        if(a)
+            archive2 << *a;
+    }
     
     return 0;
 }

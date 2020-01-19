@@ -169,4 +169,18 @@ inline double* ConvertToSolutionTable(CTable<CDouble> tableToConvert) {
     
     return pDoubleTable;
 }
+
+inline double SumTable(CTable<CDouble>& table) {
+    
+    double sum = 0;
+    
+    for(int i = 0; i < table.GetSize(); i++) {
+        
+        sum += table[i].Get();
+    }
+    
+    return sum;
+}
+
+
 #endif /* Table_h */

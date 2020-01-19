@@ -17,6 +17,7 @@
 #include "Archive.h"
 #include "MatrixHelper.h"
 #include "Problem.h"
+#include <float.h>
 
 class CMscnProblem: public CProblem {
 private:
@@ -46,7 +47,7 @@ private:
     void Init();
     
     int ValidateSolution(double* pSolution, size_t sizeSolution);
-    double FindBottleNeck();
+    double GetBottleNeck();
     
 public:
     CMscnProblem();
@@ -84,6 +85,11 @@ public:
     int GetSizeF() { return m_nSizeF; }
     int GetSizeM() { return m_nSizeM; }
     int GetSizeS() { return m_nSizeS; }
+    
+    CTable<CDouble> GetTableSD() { return m_tableSD; }
+    CTable<CDouble> GetTableSF() { return m_tableSF; }
+    CTable<CDouble> GetTableSM() { return m_tableSM; }
+    CTable<CDouble> GetTableSS() { return m_tableSS; }
     
 //---required methods---
     

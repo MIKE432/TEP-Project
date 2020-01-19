@@ -120,7 +120,11 @@ void CDiffEvol::CorrectGenotype(CRandom& random) {
                         else if(dValue > range.GetMax().Get())
                             dValue = range.GetMax().Get();
                         
+                        
+                        
                         pNewInd->GetBeginPtr()[genOffset] = dValue;
+                        
+                        
                         
                     } else
                         pNewInd->GetBeginPtr()[genOffset] = pInd->GetBeginPtr()[genOffset];
@@ -130,7 +134,7 @@ void CDiffEvol::CorrectGenotype(CRandom& random) {
                 
                 double dQuality = m_pProblem->GetQuality(pInd->GetBeginPtr(), pInd->m_sizeSolution, error);
                 
-                if(dNewQuality >= dQuality && m_pProblem->ConstraintsSatisfied(pNewInd->GetBeginPtr(), pNewInd->m_sizeSolution, error)) {
+                if((dNewQuality >= dQuality) && (m_pProblem->ConstraintsSatisfied(pNewInd->GetBeginPtr(), pNewInd->m_sizeSolution, error))) {
                     
                     delete pInd;
                     m_tablePSolutions[j] = pNewInd;
@@ -149,11 +153,11 @@ CSolution* CDiffEvol::GetSolution(CRandom& random)  {
     
     int error = ZERO;
     double dCurrentValue = ZERO;
-    double dBestValue = m_pProblem->ConstraintsSatisfied(bestSolution->GetBeginPtr(), bestSolution->m_sizeSolution, error);
+    double dBestValue = m_pProblem->GetQuality(bestSolution->GetBeginPtr(), bestSolution->m_sizeSolution, error);
 
     for(int i = 1; i < m_tablePSolutions.GetSize(); i++) {
         
-        dCurrentValue = m_pProblem->ConstraintsSatisfied(m_tablePSolutions[i]->GetBeginPtr(), m_tablePSolutions[i]->m_sizeSolution, error);
+        dCurrentValue = m_pProblem->GetQuality(m_tablePSolutions[i]->GetBeginPtr(), m_tablePSolutions[i]->m_sizeSolution, error);
         
         if(dBestValue < dCurrentValue) {
             bestSolution = m_tablePSolutions[i];

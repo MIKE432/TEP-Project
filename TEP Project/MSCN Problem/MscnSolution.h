@@ -15,7 +15,7 @@
 
 class CSolution {
 private:
-    void PrepareToStore();
+    void FillMatrixes();
 public:
     double* m_pSolution;
     size_t m_sizeSolution;
